@@ -1,0 +1,26 @@
+{
+    "name": "connora/php-mini-framework",
+    "description": "PHP Mini is a full-stack PHP web framework that gives you the basics for starting a web project in a lightweight \"mini\" package",
+    "keywords": [
+        "framework",
+        "php"
+    ],
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Connor Abbas",
+            "email": "abbasconnor@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "league/plates": "^3.4",
+        "vlucas/phpdotenv": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "./app"
+        }
+    }
+}
