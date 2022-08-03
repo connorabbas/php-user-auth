@@ -11,7 +11,7 @@ $this->layout('template::main', [
                 <div class="col">
                     <div class="card shadow" style="width: 22rem; margin: 0 auto;">
                         <div class="card-body">
-                            <h3 class="card-title mb-3">Sign-Up</h3>
+                            <h3 class="card-title mb-3">Register</h3>
                             <form action="" method="post">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Name</label>
@@ -32,7 +32,6 @@ $this->layout('template::main', [
                                     <label for="" class="form-label">Password</label>
                                     <input type="password" class="form-control form-control-sm" name="password"
                                         placeholder="Your Password" required>
-                                    <!-- <i class="bi bi-eye-slash" id="togglePassword"></i> -->
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="form-label">Repeat Password</label>
@@ -41,7 +40,6 @@ $this->layout('template::main', [
                                 </div>
                                 <button class="btn btn-primary" name="signUpSubmit">Create Account</button>
                             </form>
-                            <div id="yourcontainer"></div>
                         </div>
                     </div>
                 </div>

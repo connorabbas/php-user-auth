@@ -18,13 +18,13 @@ class User
 
     /* 
     CREATE TABLE `users` (
-    `userID` int(11) NOT NULL AUTO_INCREMENT,
-    `userRole` int(1) NOT NULL DEFAULT 0,
-    `userName` varchar(128) NOT NULL,
-    `userEmail` varchar(128) NOT NULL,
-    `userUID` varchar(128) NOT NULL,
-    `userPwd` varchar(128) NOT NULL,
-    PRIMARY KEY (`userID`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `role` int(1) NOT NULL DEFAULT 0,
+    `name` varchar(128) NOT NULL,
+    `email` varchar(128) NOT NULL,
+    `username` varchar(128) NOT NULL,
+    `password` varchar(128) NOT NULL,
+    PRIMARY KEY (`id`)
     )
     */
 }

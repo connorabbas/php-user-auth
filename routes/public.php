@@ -1,11 +1,11 @@
 <?php
 
-use App\Controllers\ExampleController;
+use App\Controllers\Auth\LoginController;
+use App\Controllers\Auth\RegisterController;
 
 // Valid Routes for Site
 
 $router->view('/', 'pages/welcome');
-$router->view('/login', 'pages/login');
-$router->view('/sign-up', 'pages/sign_up');
 
-$router->get('/example', [ExampleController::class, 'index']);
+$router->get('/login', [LoginController::class, 'index']);
+$router->get('/register', [RegisterController::class, 'index']);
