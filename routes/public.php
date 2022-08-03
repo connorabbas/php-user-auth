@@ -14,4 +14,4 @@ $router->post('/register', [RegisterController::class, 'store']);
 $router->get('/login', [LoginController::class, 'index']);
 $router->post('/login', [LoginController::class, 'doLogin']);
 
-$router->post('/logout', [LogoutController::class, 'doLogin']);
+$router->post('/logout', [LogoutController::class, 'doLogout']);

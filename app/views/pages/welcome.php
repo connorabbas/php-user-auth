@@ -12,10 +12,5 @@ $this->layout('template::main', [
             <a href="https://github.com/connorabbas/php-mini-framework#php-mini-framework" target="_blank">Documentation</a>
         </p>
         <br>
-
-        <!-- Flash messages -->
-        <?= successFlashMessage() ?>
-        <?= errorFlashMessage() ?>
-        <?= dump($_SESSION) ?>
     </div>
 </div>
