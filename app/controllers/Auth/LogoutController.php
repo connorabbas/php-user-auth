@@ -14,8 +14,11 @@ class LogoutController extends SiteController
         $this->db = new DB();
     }
 
-    public function index()
+    public function do_logout()
     {
-        //
+        session_unset();
+        session_destroy();
+        header("location: /");
+        exit();
     }
 }

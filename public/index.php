@@ -29,6 +29,11 @@ if (ENV == 'local') {
     error_reporting(E_ALL);
 }
 
+// Session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Invoke the site
 $site = new SiteController();
 $site->invoke();

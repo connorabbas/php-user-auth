@@ -12,23 +12,29 @@ function view($view, $data = [])
         $templates = new Engine('../app/views/');
         $templates->addFolder('template', '../app/views/templates/');
         echo $templates->render($view, $data);
-    } 
+    }
     // Not found
     else {
         require_once('../app/views/pages/404.php');
-    } 
+    }
 }
 
 function set_csrf()
 {
-    if ( ! isset($_SESSION["csrf"]) ) { $_SESSION["csrf"] = bin2hex(random_bytes(50)); }
-    return '<input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">';
+    if (!isset($_SESSION["csrf"])) {
+        $_SESSION["csrf"] = bin2hex(random_bytes(50));
+    }
+    return '<input type="hidden" name="csrf" value="' . $_SESSION["csrf"] . '">';
 }
 
 function is_csrf_valid()
 {
-    if ( ! isset($_SESSION['csrf']) || ! isset($_POST['csrf'])) { return false; }
-    if ( $_SESSION['csrf'] != $_POST['csrf']) { return false; }
+    if (!isset($_SESSION['csrf']) || !isset($_POST['csrf'])) {
+        return false;
+    }
+    if ($_SESSION['csrf'] != $_POST['csrf']) {
+        return false;
+    }
     return true;
 }
 
@@ -36,7 +42,7 @@ function dump($data)
 {
     ?>
     <style>
-        pre.dump{
+        pre.dump {
             display: block;
             padding: 9.5px;
             margin: 0 0 10px;
@@ -60,7 +66,7 @@ function dd($data)
 {
     ?>
     <style>
-        pre.dump{
+        pre.dump {
             display: block;
             padding: 9.5px;
             margin: 0 0 10px;
@@ -79,4 +85,46 @@ function dd($data)
     var_dump($data);
     echo '</pre>';
     die();
+}
+
+function successFlashMessage()
+{
+    $successAlert = '';
+    if (isset($_SESSION['success_msg']) && $_SESSION['success_msg'] != '') {
+        ob_start();
+        ?>
+        <div class="alert alert-success mb-3" role="alert">
+            <?= $_SESSION['success_msg'] ?>
+        </div>
+        <?php
+        $successAlert = ob_get_clean();
+        unset($_SESSION["success_msg"]);
+    }
+
+    return $successAlert;
+}
+
+function errorFlashMessage()
+{
+    $errorAlert = '';
+    if (isset($_SESSION['error_msg']) && $_SESSION['error_msg'] != '') {
+        ob_start();
+        ?>
+        <div class="alert alert-danger mb-3" role="alert">
+            <?php
+            if (is_array($_SESSION['error_msg'])) {
+                foreach ($_SESSION['error_msg'] as $message) {
+                    echo $message . '<br>';
+                }
+            } else {
+                echo $_SESSION['error_msg'];
+            }
+            ?>
+        </div>
+        <?php
+        $errorAlert = ob_get_clean();
+        unset($_SESSION["error_msg"]);
+    }
+
+    return $errorAlert;
 }
