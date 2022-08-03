@@ -12,7 +12,7 @@ $this->layout('template::main', [
                     <div class="card shadow" style="width: 22rem; margin: 0 auto;">
                         <div class="card-body">
                             <h3 class="card-title mb-3">Login</h3>
-                            <form action="../app/includes/post_data.php" method="post">
+                            <form action="" method="post">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Username</label>
                                     <input type="text" class="form-control form-control-sm" name="username"

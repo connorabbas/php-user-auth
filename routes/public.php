@@ -6,11 +6,6 @@ use App\Controllers\ExampleController;
 
 $router->view('/', 'pages/welcome');
 $router->view('/login', 'pages/login');
-
-$router->get('/json', function() {
-    echo json_encode(
-        ['foo' => 'bar']
-    );
-});
+$router->view('/sign-up', 'pages/sign_up');
 
 $router->get('/example', [ExampleController::class, 'index']);
