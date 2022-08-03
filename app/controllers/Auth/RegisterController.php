@@ -9,10 +9,13 @@ use App\Controllers\SiteController;
 class RegisterController extends SiteController
 {
     protected $db;
+    private $auth;
 
     public function __construct()
     {
         $this->db = new DB();
+        $this->auth = new AuthService($this->db);
+        $this->auth->guestAccessOnly();
     }
 
     public function index()
@@ -28,8 +31,7 @@ class RegisterController extends SiteController
         $pwd = $_POST['password'];
         $pwdR = $_POST['passwordR'];
 
-        $auth = new AuthService($this->db);
-        $userCreated = $auth->createUser($name, $email, $username, $pwd, $pwdR);
+        $userCreated = $this->auth->createUser($name, $email, $username, $pwd, $pwdR);
 
         if (!$userCreated) {
             header("location: /register");

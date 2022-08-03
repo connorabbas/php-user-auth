@@ -136,4 +136,24 @@ class AuthService
             return true;
         }
     }
+
+    public function authAccessOnly()
+    {
+        $validUser = false;
+        if (loggedIn()) {
+            $validUser = $this->user->getById($_SESSION['user_id']);
+        }
+        if (!$validUser) {
+            view('pages/403');
+            die;
+        }
+    }
+
+    public function guestAccessOnly()
+    {
+        if (loggedIn() && $this->user->getById($_SESSION['user_id']) !== false) {
+            view('pages/403');
+            die;
+        }
+    }
 }
