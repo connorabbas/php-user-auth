@@ -1,10 +1,10 @@
 <?php
 $this->layout('template::main', [
-    'pageTitle' => 'Login',
-    'pageDesc' => "User Login",
+    'pageTitle' => 'User Info',
+    'pageDesc' => "User Info",
 ]);
 ?>
-<div class="mt-5 mb-5" style="/* height: 90vh */">
+<div class="mt-5 mb-5">
     <div id="logInOuter">
         <div class="container">
             <div class="row">
@@ -17,19 +17,14 @@ $this->layout('template::main', [
                         <!-- Form -->
                         <div class="card shadow" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
-                                <h3 class="card-title mb-3">Login</h3>
-                                <form action="/login" method="post">
+                                <h3 class="card-title mb-3">Update Info</h3>
+                                <form action="tbd" method="post">
                                     <div class="mb-3">
-                                        <label for="" class="form-label">Username</label>
+                                        <label for="" class="form-label">Name</label>
                                         <input type="text" class="form-control form-control-sm" name="username"
-                                            placeholder="Username" required>
+                                            placeholder="Username" value="<?= $user->name ?>" required>
                                     </div>
-                                    <div class="mb-4">
-                                        <label for="" class="form-label">Password</label>
-                                        <input type="password" class="form-control form-control-sm" name="password"
-                                            placeholder="Your Password" required>
-                                    </div>
-                                    <button class="btn btn-primary" name="loginSubmit">Login</button>
+                                    <button class="btn btn-primary" name="updateSubmit">Update</button>
                                 </form>
                             </div>
                         </div>

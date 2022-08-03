@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\UserController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\LogoutController;
 use App\Controllers\Auth\RegisterController;
@@ -15,3 +16,5 @@ $router->get('/login', [LoginController::class, 'index']);
 $router->post('/login', [LoginController::class, 'doLogin']);
 
 $router->post('/logout', [LogoutController::class, 'doLogout']);
+
+$router->get('/user-info', [UserController::class, 'index']);

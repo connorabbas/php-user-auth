@@ -137,7 +137,7 @@ class AuthService
         }
     }
 
-    public function authAccessOnly()
+    public function userAccessOnly()
     {
         $validUser = false;
         if (loggedIn()) {
