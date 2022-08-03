@@ -145,7 +145,7 @@ class AuthService
         }
         if (!$validUser) {
             view('pages/403');
-            die;
+            exit();
         }
     }
 
@@ -153,7 +153,7 @@ class AuthService
     {
         if (loggedIn() && $this->user->getById($_SESSION['user_id']) !== false) {
             view('pages/403');
-            die;
+            exit();
         }
     }
 }
