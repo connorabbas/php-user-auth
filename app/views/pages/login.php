@@ -1,7 +1,7 @@
 <?php
 $this->layout('template::main', [
     'pageTitle' => 'Login',
-    'pageDesc' => "User Login",
+    'pageDesc' => "User Auth",
 ]);
 ?>
 <div class="mt-5 mb-5" style="/* height: 90vh */">

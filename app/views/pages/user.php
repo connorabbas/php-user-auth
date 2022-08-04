@@ -1,7 +1,7 @@
 <?php
 $this->layout('template::main', [
     'pageTitle' => 'User Info',
-    'pageDesc' => "User Info",
+    'pageDesc' => "User Auth",
 ]);
 ?>
 <div class="mt-5 mb-5">

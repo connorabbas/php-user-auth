@@ -1,7 +1,7 @@
 <?php
 $this->layout('template::main', [
-    'pageTitle' => 'Login',
-    'pageDesc' => "User Login",
+    'pageTitle' => 'Register',
+    'pageDesc' => "User Auth",
 ]);
 ?>
 <!-- d-flex align-items-center justify-content-center -->
