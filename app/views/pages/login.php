@@ -10,11 +10,7 @@ $this->layout('template::main', [
             <div class="row">
                 <div class="col">
                     <div style="width: 22rem; margin: 0 auto;">
-                        <!-- Flash messages -->
-                        <?= successFlashMessage() ?>
                         <?= errorFlashMessage() ?>
-
-                        <!-- Form -->
                         <div class="card shadow" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Login</h3>
