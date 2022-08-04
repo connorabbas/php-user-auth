@@ -39,6 +39,7 @@ class AuthService
         if (!preg_match('/^[a-zA-Z0-9]*$/', $username)) {
             return true;
         }
+        
         return false;
     }
 
