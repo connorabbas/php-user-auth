@@ -90,7 +90,6 @@ class AuthService
         } else {
             try {
                 $this->user->create($name, $email, $username, $pwd);
-                $_SESSION['success_msg'] = 'User Created!';
                 return true;
             } catch (Exception $e) {
                 $_SESSION['error_msg'] = 'Database error. Contact support staff.';

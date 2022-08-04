@@ -28,9 +28,7 @@ class LoginController extends SiteController
         $username = $_POST['username'];
         $pwd = $_POST['password'];
 
-        $loggedIn = $this->auth->attemptLogin($username, $pwd);
-
-        if (!$loggedIn) {
+        if (!$this->auth->attemptLogin($username, $pwd)) {
             header("location: /login");
         } else {
             header("location: /");

@@ -31,12 +31,14 @@ class RegisterController extends SiteController
         $pwd = $_POST['password'];
         $pwdR = $_POST['passwordR'];
 
-        $userCreated = $this->auth->createUser($name, $email, $username, $pwd, $pwdR);
-
-        if (!$userCreated) {
+        if (!$this->auth->createUser($name, $email, $username, $pwd, $pwdR)) {
             header("location: /register");
         } else {
-            header("location: /");
+            if (!$this->auth->attemptLogin($username, $pwd)) {
+                header("location: /login");
+            } else {
+                header("location: /");
+            }
         }
         exit();
     }
