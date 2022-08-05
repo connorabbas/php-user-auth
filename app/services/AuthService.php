@@ -115,7 +115,7 @@ class AuthService
         return $errors;
     }
 
-    public function attemptLogin($username, $pwd)
+    public function attemptLogin($username, $pwd): bool
     {
         try {
             $user = $this->user->getByUsername($username, $username);
