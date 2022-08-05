@@ -1,6 +1,11 @@
 # PHP User Authentication System 
 ### using: [PHP Mini Framework](https://github.com/connorabbas/php-mini-framework)
 
+- User registration with validation
+- User login/logout with session
+- Middleware to limit page/route access for guests and users
+ 
+---
 ``` SQL
 CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
