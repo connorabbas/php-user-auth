@@ -90,11 +90,11 @@ function dd($data)
 function successFlashMessage()
 {
     $successAlert = '';
-    if (isset($_SESSION['success_msg']) && $_SESSION['success_msg'] != '') {
+    if (isset($_SESSION['flash_success_msg']) && $_SESSION['flash_success_msg'] != '') {
         ob_start();
         ?>
         <div class="alert alert-success mb-3" role="alert">
-            <?= $_SESSION['success_msg'] ?>
+            <?= $_SESSION['flash_success_msg'] ?>
         </div>
         <?php
         $successAlert = ob_get_clean();
@@ -107,17 +107,17 @@ function successFlashMessage()
 function errorFlashMessage()
 {
     $errorAlert = '';
-    if (isset($_SESSION['error_msg']) && $_SESSION['error_msg'] != '') {
+    if (isset($_SESSION['flash_error_msg']) && $_SESSION['flash_error_msg'] != '') {
         ob_start();
         ?>
         <div class="alert alert-danger mb-3" role="alert">
             <?php
-            if (is_array($_SESSION['error_msg'])) {
-                foreach ($_SESSION['error_msg'] as $message) {
+            if (is_array($_SESSION['flash_error_msg'])) {
+                foreach ($_SESSION['flash_error_msg'] as $message) {
                     echo $message . '<br>';
                 }
             } else {
-                echo $_SESSION['error_msg'];
+                echo $_SESSION['flash_error_msg'];
             }
             ?>
         </div>

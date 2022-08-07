@@ -86,14 +86,14 @@ class AuthService
 
         if (count($errors) > 0) {
             array_unshift($errors , 'Not Registered.');
-            $_SESSION['error_msg'] = $errors;
+            $_SESSION['flash_error_msg'] = $errors;
             return false;
         } else {
             try {
                 $this->user->create($name, $email, $username, $pwd);
                 return true;
             } catch (Exception $e) {
-                $_SESSION['error_msg'] = 'Database error. Contact support staff.';
+                $_SESSION['flash_error_msg'] = 'Database error. Contact support staff.';
                 return false;
             }
         }
@@ -120,14 +120,14 @@ class AuthService
         try {
             $user = $this->user->getByUsername($username, $username);
         } catch (Exception $e) {
-            $_SESSION['error_msg'] = 'Database error. Contact support staff.';
+            $_SESSION['flash_error_msg'] = 'Database error. Contact support staff.';
             return false;
         }
         $errors = $this->validateLoginUser($username, $pwd, $user);
 
         if (count($errors) > 0) {
             array_unshift($errors , 'Invalid Login.');
-            $_SESSION['error_msg'] = $errors;
+            $_SESSION['flash_error_msg'] = $errors;
             return false;
         } else {
             $_SESSION['user_id'] = $user->id;
