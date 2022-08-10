@@ -31,6 +31,9 @@ class RegisterController extends SiteController
         $pwd = $_POST['password'];
         $pwdR = $_POST['passwordR'];
 
+        // TODO
+        // setup validation with https://github.com/MarwanAlsoltany/mighty
+
         if (!$this->auth->createUser($name, $email, $username, $pwd, $pwdR)) {
             header("location: /register");
         } else {
