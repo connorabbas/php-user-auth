@@ -8,7 +8,7 @@ use PDOException;
 /* 
 *  PDO DATABASE CLASS
 *  Connects Database Using PDO
-*  Creates Prepeared Statements
+*  Creates Prepared Statements
 *  Binds params to values
 *  Returns rows and results
 */
@@ -35,7 +35,7 @@ class DB
         // Create a new PDO instanace
         try {
             $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
-        }        // Catch any errors
+        } // Catch any errors
         catch (PDOException $e) {
             $this->error = $e->getMessage();
         }
@@ -51,6 +51,7 @@ class DB
     public function query($query)
     {
         $this->stmt = $this->dbh->prepare($query);
+        return $this;
     }
 
     // Bind values
@@ -72,6 +73,7 @@ class DB
             }
         }
         $this->stmt->bindValue($param, $value, $type);
+        return $this;
     }
 
     // Execute the prepared statement
