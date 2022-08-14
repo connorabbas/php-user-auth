@@ -6,9 +6,13 @@ class LogoutController
 {
     public function doLogout()
     {
-        session_unset();
-        session_destroy();
-        header("location: /");
-        exit();
+        if (csrfValid()) {
+            session_unset();
+            session_destroy();
+        } else {
+            $_SESSION['flash_error_msg'] = 'Invalid logout attempt. Possible cross site request forgery detected.';
+        }
+
+        redirect('/');
     }
 }

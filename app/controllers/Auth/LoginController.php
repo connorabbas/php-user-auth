@@ -28,11 +28,15 @@ class LoginController
         $username = $_POST['username'];
         $pwd = $_POST['password'];
 
-        if (!$this->auth->attemptLogin($username, $pwd)) {
-            header("location: /login");
+        if (csrfValid()) {
+            if (!$this->auth->attemptLogin($username, $pwd)) {
+                redirect('/login');
+            } else {
+                redirect('/');
+            }
         } else {
-            header("location: /");
+            $_SESSION['flash_error_msg'] = 'Invalid login. Possible cross site request forgery detected.';
+            redirect('/login');
         }
-        exit();
     }
 }
