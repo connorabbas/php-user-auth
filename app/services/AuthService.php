@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Exception;
+use App\Core\DB;
 use App\Core\View;
 use App\Models\User;
 
@@ -11,7 +12,7 @@ class AuthService
     protected $db;
     public $user;
 
-    public function __construct($db)
+    public function __construct(DB $db)
     {
         $this->db = $db;
         $this->user = new User($this->db);

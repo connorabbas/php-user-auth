@@ -21,6 +21,7 @@
                     </span>
                     <li class="nav-item">
                         <form action="/logout" method="post">
+                            <?= csrf() ?>
                             <button type="submit" class="btn nav-link">Logout</button>
                         </form>
                     </li>

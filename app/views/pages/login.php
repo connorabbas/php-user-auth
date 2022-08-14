@@ -15,6 +15,7 @@ $this->layout('template::main', [
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Login</h3>
                                 <form action="/login" method="post">
+                                    <?= csrf() ?>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Username</label>
                                         <input type="text" class="form-control form-control-sm" name="username"
