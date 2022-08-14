@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use Exception;
+use App\Core\View;
+use App\Models\User;
 
 class AuthService
 {
@@ -144,7 +145,7 @@ class AuthService
             $validUser = $this->user->getById($_SESSION['user_id']);
         }
         if (!$validUser) {
-            view('pages/403');
+            View::show('pages/403');
             exit();
         }
     }
@@ -152,7 +153,7 @@ class AuthService
     public function guestAccessOnly()
     {
         if (loggedIn() && $this->user->getById($_SESSION['user_id']) !== false) {
-            view('pages/403');
+            View::show('pages/403');
             exit();
         }
     }

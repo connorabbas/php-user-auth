@@ -3,10 +3,10 @@
 namespace App\Controllers\Auth;
 
 use App\Core\DB;
+use App\Core\View;
 use App\Services\AuthService;
-use App\Controllers\SiteController;
 
-class RegisterController extends SiteController
+class RegisterController
 {
     protected $db;
     private $auth;
@@ -20,7 +20,7 @@ class RegisterController extends SiteController
 
     public function index()
     {
-        return view('pages/register');
+        View::show('pages/register');
     }
 
     public function store()

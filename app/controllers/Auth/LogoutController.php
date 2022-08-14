@@ -2,9 +2,7 @@
 
 namespace App\Controllers\Auth;
 
-use App\Controllers\SiteController;
-
-class LogoutController extends SiteController
+class LogoutController
 {
     public function doLogout()
     {

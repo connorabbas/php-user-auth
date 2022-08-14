@@ -3,10 +3,10 @@
 namespace App\Controllers\Auth;
 
 use App\Core\DB;
+use App\Core\View;
 use App\Services\AuthService;
-use App\Controllers\SiteController;
 
-class LoginController extends SiteController
+class LoginController
 {
     protected $db;
     private $auth;
@@ -20,7 +20,7 @@ class LoginController extends SiteController
 
     public function index()
     {
-        return view('pages/login');
+        View::show('pages/login');
     }
 
     public function doLogin()

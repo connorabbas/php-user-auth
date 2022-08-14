@@ -18,3 +18,4 @@ $router->post('/login', [LoginController::class, 'doLogin']);
 $router->post('/logout', [LogoutController::class, 'doLogout']);
 
 $router->get('/user-info', [UserController::class, 'index']);
+

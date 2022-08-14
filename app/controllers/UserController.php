@@ -3,10 +3,11 @@
 namespace App\Controllers;
 
 use App\Core\DB;
+use App\Core\View;
 use App\Models\User;
 use App\Services\AuthService;
 
-class UserController extends SiteController
+class UserController
 {
     protected $db;
     private $auth;
@@ -24,7 +25,7 @@ class UserController extends SiteController
     {
         $user = $this->user->getById($_SESSION['user_id']);
         
-        return view('pages/user', [
+        View::show('pages/user', [
             'user' => $user
         ]);
     }
