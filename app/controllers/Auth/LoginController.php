@@ -30,15 +30,13 @@ class LoginController
 
         if (csrfValid()) {
             if (!$this->auth->attemptLogin($username, $pwd)) {
-                header("location: /login");
+                redirect('/login');
             } else {
-                header("location: /");
+                redirect('/');
             }
         } else {
             $_SESSION['flash_error_msg'] = 'Invalid login. Possible cross site request forgery detected.';
-            header("location: /login");
+            redirect('/login');
         }
-
-        exit();
     }
 }

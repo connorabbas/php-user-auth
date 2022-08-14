@@ -145,3 +145,9 @@ function loggedIn()
     }
     return false;
 }
+
+function redirect(string $route)
+{
+    header("location: " . $route);
+    exit();
+}

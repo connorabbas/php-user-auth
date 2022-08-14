@@ -36,19 +36,17 @@ class RegisterController
 
         if (csrfValid()) {
             if (!$this->auth->createUser($name, $email, $username, $pwd, $pwdR)) {
-                header("location: /register");
+                redirect('/register');
             } else {
                 if (!$this->auth->attemptLogin($username, $pwd)) {
-                    header("location: /login");
+                    redirect('/login');
                 } else {
-                    header("location: /");
+                    redirect('/');
                 }
             }
         } else {
             $_SESSION['flash_error_msg'] = 'Invalid user registration. Possible cross site request forgery detected.';
-            header("location: /register");
+            redirect('/register');
         }
-
-        exit();
     }
 }
