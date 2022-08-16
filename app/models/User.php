@@ -49,4 +49,16 @@ class User extends Model
 
         return false;
     }
+
+    /* 
+    CREATE TABLE `users` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `role` int(1) NOT NULL DEFAULT 0,
+        `name` varchar(128) NOT NULL,
+        `email` varchar(128) NOT NULL,
+        `username` varchar(128) NOT NULL,
+        `password` varchar(128) NOT NULL,
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
+    */
 }
