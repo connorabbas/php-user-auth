@@ -20,7 +20,7 @@ class LoginController
 
     public function index()
     {
-        View::show('pages/login');
+        return View::show('pages.login');
     }
 
     public function doLogin()
