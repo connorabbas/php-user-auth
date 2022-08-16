@@ -1,2 +1,2 @@
 # PHP User Auth
-User authentication built with [PHP Mini Framework](https://github.com/connorabbas/php-mini-framework)
+User authentication built with [PHP Basic Framework](https://github.com/connorabbas/basic-framework)

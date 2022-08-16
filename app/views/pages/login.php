@@ -4,7 +4,7 @@ $this->layout('template::main', [
     'pageDesc' => "User Auth",
 ]);
 ?>
-<div class="mt-5 mb-5" style="/* height: 90vh */">
+<div class="mt-5 mb-5">
     <div id="logInOuter">
         <div class="container">
             <div class="row">
@@ -18,12 +18,12 @@ $this->layout('template::main', [
                                     <?= csrf() ?>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Username</label>
-                                        <input type="text" class="form-control form-control-sm" name="username"
+                                        <input type="text" class="form-control form-control" name="username"
                                             placeholder="Username" required>
                                     </div>
                                     <div class="mb-4">
                                         <label for="" class="form-label">Password</label>
-                                        <input type="password" class="form-control form-control-sm" name="password"
+                                        <input type="password" class="form-control form-control" name="password"
                                             placeholder="Your Password" required>
                                     </div>
                                     <button class="btn btn-primary" name="loginSubmit">Login</button>
