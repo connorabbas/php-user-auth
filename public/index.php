@@ -1,13 +1,13 @@
 <?php
 
+use App\Core\App;
 use Dotenv\Dotenv;
-use App\Controllers\SiteController;
 use Dotenv\Exception\InvalidPathException;
 
 /**
- * PHP Mini Framework
+ * PHP Basic Framework
  * Developed and maintained by: Connor Abbas 
- * Source code: https://github.com/connorabbas/php-mini-framework#php-mini-framework
+ * Docs: https://github.com/connorabbas/basic-framework#php-basic-framework
  */
 
 // Composer autoload
@@ -16,8 +16,8 @@ if (file_exists('../vendor/autoload.php')) {
 }
 
 // Register .env data into $_ENV super global
-$dotenv = Dotenv::createImmutable(dirname(__DIR__));
 try {
+    $dotenv = Dotenv::createImmutable(dirname(__DIR__));
     $dotenv->load();
 } catch (InvalidPathException) {
     echo '.env file not configured for site.';
@@ -25,7 +25,7 @@ try {
 }
 
 // Global helper functions and constants
-require_once('../app/core/Helpers.php');
+require_once('../app/utilities/Helpers.php');
 require_once('../app/data/Constants.php');
 
 // Session
@@ -41,5 +41,4 @@ if (config('site.environment') == 'local') {
 }
 
 // Invoke the site
-$site = new SiteController();
-$site->invoke();
+(new App)->run();

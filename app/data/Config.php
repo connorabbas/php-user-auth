@@ -12,7 +12,7 @@ class Config
             'site' => [
                 'environment' => $env['ENV'],
                 'title' => 'Welcome!',
-                'description' => 'Basic use auth system built with PHP.',
+                'description' => 'Basic auth system built with PHP',
             ],
             'database' => [
                 'main' => [

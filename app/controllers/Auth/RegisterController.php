@@ -20,7 +20,7 @@ class RegisterController
 
     public function index()
     {
-        View::show('pages/register');
+        return View::show('pages.register');
     }
 
     public function store()

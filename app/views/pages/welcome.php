@@ -8,6 +8,6 @@ $this->layout('template::main', [
     <div class="text-center">
         <?= errorFlashMessage() ?>
         <h3 class="mb-3">PHP User Auth Application</h3>
-        <p class="mb-3 text-muted">Built With <a href="https://github.com/connorabbas/php-mini-framework#php-mini-framework" target="_blank">PHP Mini Framework</a></p>
+        <p class="mb-3 text-muted">Built With <a href="https://github.com/connorabbas/basic-framework#php-basic-framework" target="_blank">PHP Basic Framework</a></p>
     </div>
 </div>

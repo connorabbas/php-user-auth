@@ -47,53 +47,13 @@ function csrfValid()
     return true;
 }
 
-function dump($data)
+/**
+ * Redirect to a different route
+ */
+function redirect(string $route)
 {
-    ?>
-    <style>
-        pre.dump{
-            display: block;
-            padding: 9.5px;
-            margin: 0 0 10px;
-            font-size: 13px;
-            line-height: 1.42857143;
-            color: #333;
-            word-break: break-all;
-            word-wrap: break-word;
-            background-color: #f5f5f5;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
-    <?php
-    echo '<pre class="dump">';
-    var_dump($data);
-    echo '</pre>';
-}
-
-function dd($data)
-{
-    ?>
-    <style>
-        pre.dump{
-            display: block;
-            padding: 9.5px;
-            margin: 0 0 10px;
-            font-size: 13px;
-            line-height: 1.42857143;
-            color: #333;
-            word-break: break-all;
-            word-wrap: break-word;
-            background-color: #f5f5f5;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
-    <?php
-    echo '<pre class="dump">';
-    var_dump($data);
-    echo '</pre>';
-    die();
+    header("location: " . $route);
+    exit();
 }
 
 function successFlashMessage()
@@ -144,10 +104,4 @@ function loggedIn()
         return true;
     }
     return false;
-}
-
-function redirect(string $route)
-{
-    header("location: " . $route);
-    exit();
 }

@@ -25,7 +25,7 @@ class UserController
     {
         $user = $this->user->getById($_SESSION['user_id']);
         
-        View::show('pages/user', [
+        return View::show('pages.user', [
             'user' => $user
         ]);
     }
