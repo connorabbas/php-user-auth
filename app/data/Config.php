@@ -12,7 +12,7 @@ class Config
             'site' => [
                 'environment' => $env['ENV'],
                 'title' => 'Welcome!',
-                'description' => 'This is a mini framework with the basic php application essentials.',
+                'description' => 'Basic use auth system built with PHP.',
             ],
             'database' => [
                 'main' => [
