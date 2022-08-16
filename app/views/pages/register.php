@@ -4,8 +4,7 @@ $this->layout('template::main', [
     'pageDesc' => "User Auth",
 ]);
 ?>
-<!-- d-flex align-items-center justify-content-center -->
-<div class="mt-5 mb-5" style="/* height: 90vh */">
+<div class="mt-5 mb-5">
     <div id="signupOuter">
         <div class="container">
             <div class="row">
@@ -19,27 +18,27 @@ $this->layout('template::main', [
                                     <?= csrf() ?>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Name</label>
-                                        <input type="text" class="form-control form-control-sm" name="name"
+                                        <input type="text" class="form-control form-control" name="name"
                                             placeholder="Full Name" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Email address</label>
-                                        <input type="email" class="form-control form-control-sm" name="email"
+                                        <input type="email" class="form-control form-control" name="email"
                                             placeholder="name@example.com" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Username</label>
-                                        <input type="text" class="form-control form-control-sm" name="username"
+                                        <input type="text" class="form-control form-control" name="username"
                                             placeholder="Username" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Password</label>
-                                        <input type="password" class="form-control form-control-sm" name="password"
+                                        <input type="password" class="form-control form-control" name="password"
                                             placeholder="Your Password" required>
                                     </div>
                                     <div class="mb-4">
                                         <label for="" class="form-label">Repeat Password</label>
-                                        <input type="password" class="form-control form-control-sm" name="passwordR"
+                                        <input type="password" class="form-control form-control" name="passwordR"
                                             placeholder="Repeat Your Password" required>
                                     </div>
                                     <button class="btn btn-primary" name="signUpSubmit">Create Account</button>
