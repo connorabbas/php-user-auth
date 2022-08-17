@@ -31,12 +31,9 @@ class UserController
 
     public function store()
     {
-        if (!csrfValid()) {
-            $_SESSION['flash_error_msg'] = 'Invalid submission. Possible cross site request forgery detected.';
-        } else {
-            (new UserService($this->db))->updateName($_SESSION['user_id'], $_POST['name']);
-        }
+        handleCsrf();
 
+        (new UserService($this->db))->updateName($_SESSION['user_id'], $_POST['name']);
         back();
     }
 }

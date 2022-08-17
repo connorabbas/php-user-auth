@@ -37,14 +37,22 @@ function csrf()
  */
 function csrfValid()
 {
-    if (!isset($_SESSION['csrf']) || !isset($_POST['csrf'])) {
+    if (!isset($_SESSION['csrf']) || !isset($_REQUEST['csrf'])) {
         return false;
     }
-    if ($_SESSION['csrf'] != $_POST['csrf']) {
+    if ($_SESSION['csrf'] != $_REQUEST['csrf']) {
         return false;
     }
 
     return true;
+}
+
+function handleCsrf()
+{
+    if (!csrfValid()) {
+        $_SESSION['flash_error_msg'] = 'Invalid request. Possible cross site request forgery detected.';
+        back();
+    }
 }
 
 /**
