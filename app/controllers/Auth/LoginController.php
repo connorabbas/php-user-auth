@@ -25,14 +25,9 @@ class LoginController
 
     public function doLogin()
     {
-        $username = $_POST['username'];
-        $pwd = $_POST['password'];
-
-        if (!csrfValid()) {
-            $_SESSION['flash_error_msg'] = 'Invalid login. Possible cross site request forgery detected.';
-            back();
-        }
-        if (!$this->auth->attemptLogin($username, $pwd)) {
+        handleCsrf();
+        
+        if (!$this->auth->attemptLogin($_POST['username'], $_POST['password'])) {
             back();
         }
 

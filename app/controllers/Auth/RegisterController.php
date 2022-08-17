@@ -24,7 +24,9 @@ class RegisterController
     }
 
     public function store()
-    {        
+    {
+        handleCsrf();
+
         $name = $_POST['name'];
         $username = $_POST['username'];
         $email = $_POST['email'];
@@ -34,10 +36,6 @@ class RegisterController
         // TODO
         // setup validation with https://github.com/MarwanAlsoltany/mighty
 
-        if (!csrfValid()) {
-            $_SESSION['flash_error_msg'] = 'Invalid user registration. Possible cross site request forgery detected.';
-            back();
-        }
         if (!$this->auth->createUser($name, $email, $username, $pwd, $pwdR)) {
             back();
         } 

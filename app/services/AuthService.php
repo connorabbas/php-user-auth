@@ -90,14 +90,14 @@ class AuthService
             array_unshift($errors , 'Not Registered.');
             $_SESSION['flash_error_msg'] = $errors;
             return false;
-        } else {
-            try {
-                $this->user->create($name, $email, $username, $pwd);
-                return true;
-            } catch (Exception $e) {
-                $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e;
-                return false;
-            }
+        } 
+
+        try {
+            $this->user->create($name, $email, $username, $pwd);
+            return true;
+        } catch (Exception $e) {
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e;
+            return false;
         }
     }
 
@@ -131,12 +131,12 @@ class AuthService
             array_unshift($errors , 'Invalid Login.');
             $_SESSION['flash_error_msg'] = $errors;
             return false;
-        } else {
-            $_SESSION['user_id'] = $user->id;
-            $_SESSION['user_username'] = $user->username;
-            $_SESSION['user_name'] = $user->name;
-            return true;
-        }
+        } 
+
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_username'] = $user->username;
+        $_SESSION['user_name'] = $user->name;
+        return true;
     }
 
     public function userAccessOnly()
