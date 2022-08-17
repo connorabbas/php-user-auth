@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\MVC\Controllers\Auth;
 
 use App\Core\DB;
 use App\Core\View;

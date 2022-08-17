@@ -1,8 +1,8 @@
 <?php
 
-use App\Controllers\Auth\LoginController;
-use App\Controllers\Auth\LogoutController;
-use App\Controllers\Auth\RegisterController;
+use App\MVC\Controllers\Auth\LoginController;
+use App\MVC\Controllers\Auth\LogoutController;
+use App\MVC\Controllers\Auth\RegisterController;
 
 // Valid Routes for Site
 
