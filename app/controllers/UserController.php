@@ -24,19 +24,19 @@ class UserController
     {
         $user = (new User($this->db))->getById($_SESSION['user_id']);
         
-        return View::show('pages.user', [
+        return View::show('pages.account', [
             'user' => $user
         ]);
     }
 
-    public function updateName()
+    public function store()
     {
-        if (csrfValid()) {
-            (new UserService($this->db))->updateName($_SESSION['user_id'], $_POST['name']);
-        } else {
+        if (!csrfValid()) {
             $_SESSION['flash_error_msg'] = 'Invalid submission. Possible cross site request forgery detected.';
+        } else {
+            (new UserService($this->db))->updateName($_SESSION['user_id'], $_POST['name']);
         }
 
-        redirect('/account');
+        back();
     }
 }

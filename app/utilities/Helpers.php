@@ -56,6 +56,15 @@ function redirect(string $route)
     exit();
 }
 
+/**
+ * Redirect to previous page
+ */
+function back()
+{
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit();
+}
+
 function successFlashMessage()
 {
     $successAlert = '';

@@ -34,19 +34,17 @@ class RegisterController
         // TODO
         // setup validation with https://github.com/MarwanAlsoltany/mighty
 
-        if (csrfValid()) {
-            if (!$this->auth->createUser($name, $email, $username, $pwd, $pwdR)) {
-                redirect('/register');
-            } else {
-                if (!$this->auth->attemptLogin($username, $pwd)) {
-                    redirect('/login');
-                } else {
-                    redirect('/');
-                }
-            }
-        } else {
+        if (!csrfValid()) {
             $_SESSION['flash_error_msg'] = 'Invalid user registration. Possible cross site request forgery detected.';
-            redirect('/register');
+            back();
         }
+        if (!$this->auth->createUser($name, $email, $username, $pwd, $pwdR)) {
+            back();
+        } 
+        if (!$this->auth->attemptLogin($username, $pwd)) {
+            redirect('/login');
+        }
+
+        redirect('/');
     }
 }
