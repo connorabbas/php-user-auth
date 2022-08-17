@@ -5,7 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Core\DB;
 use App\Core\View;
-use App\Models\User;
+use App\MVC\Models\User;
 
 class AuthService
 {

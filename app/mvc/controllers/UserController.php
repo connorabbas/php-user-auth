@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\MVC\Controllers;
 
 use App\Core\DB;
 use App\Core\View;
-use App\Models\User;
+use App\MVC\Models\User;
 use App\Services\AuthService;
 use App\Services\UserService;
 
@@ -32,6 +32,9 @@ class UserController
     public function store()
     {
         handleCsrf();
+
+        // TODO
+        // handle input validation
 
         (new UserService($this->db))->updateName($_SESSION['user_id'], $_POST['name']);
         back();

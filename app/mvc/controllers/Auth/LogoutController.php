@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\MVC\Controllers\Auth;
 
 class LogoutController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\MVC\Controllers\Auth;
 
 use App\Core\DB;
 use App\Core\View;
@@ -26,6 +26,9 @@ class LoginController
     public function doLogin()
     {
         handleCsrf();
+
+        // TODO
+        // handle input validation
         
         if (!$this->auth->attemptLogin($_POST['username'], $_POST['password'])) {
             back();
