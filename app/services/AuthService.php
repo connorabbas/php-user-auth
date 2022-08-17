@@ -18,21 +18,14 @@ class AuthService
         $this->user = new User($this->db);
     }
 
-    public function checkRegisterEmptyInputs($name, $email, $username, $pwd, $pwdR): bool
+    function checkEmptyInputs(array $values): bool
     {
-        if (empty($name) || empty($email) || empty($username) || empty($pwd) || empty($pwdR)) {
-            return true;
+        foreach ($values as $value) {
+            if (empty($value)) {
+                return true;
+            }
         }
 
-        return false;
-    }
-
-    function checkLoginEmptyInputs($username, $pwd): bool
-    {
-        if (empty($username) || empty($pwd)) {
-            return true;
-        }
-        
         return false;
     }
 
@@ -63,10 +56,10 @@ class AuthService
         return false;
     }
 
-    public function validateRegisterUser($name, $email, $username, $pwd, $pwdR): array
+    public function validateRegisterUser($name, $email, $username, $pwd, $pwdR): void
     {
         $errors = [];
-        if ($this->checkRegisterEmptyInputs($name, $email, $username, $pwd, $pwdR) !== false) {
+        if ($this->checkEmptyInputs([$name, $email, $username, $pwd, $pwdR]) !== false) {
             $errors[] = 'Please fill out all required fields.';
         }
         if ($this->invalidUsername($username) !== false) {
@@ -78,33 +71,33 @@ class AuthService
         if ($this->user->getByUsername($username, $email) !== false) {
             $errors[] = 'This username or email already exists.';
         }
-
-        return $errors;
+        if (count($errors)) {
+            throw new Exception(implode('Error: ', $errors));
+        }
     }
 
     public function createUser($name, $email, $username, $pwd, $pwdR): bool
     {
-        $errors = $this->validateRegisterUser($name, $email, $username, $pwd, $pwdR);
-
-        if (count($errors) > 0) {
-            array_unshift($errors , 'Not Registered.');
-            $_SESSION['flash_error_msg'] = $errors;
+        try {
+            $this->validateRegisterUser($name, $email, $username, $pwd, $pwdR);
+        } catch (Exception $e) {
+            $_SESSION['flash_error_msg'] = array_merge(['Not Registered.'], explode('Error: ', $e->getMessage()));
             return false;
-        } 
+        }
 
         try {
             $this->user->create($name, $email, $username, $pwd);
             return true;
         } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e;
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
             return false;
         }
     }
 
-    public function validateLoginUser($username, $pwd, $user): array
+    public function validateLoginUser($username, $pwd, $user): void
     {
         $errors = [];
-        if ($this->checkLoginEmptyInputs($username, $pwd) !== false) {
+        if ($this->checkEmptyInputs([$username, $pwd]) !== false) {
             $errors[] = 'Please fill out all required fields.';
         }
         if (!$user) {
@@ -113,8 +106,9 @@ class AuthService
         if ($user !== false && !password_verify($pwd, $user->password)) {
             $errors[] = 'Incorrect password.';
         }
-
-        return $errors;
+        if (count($errors)) {
+            throw new Exception(implode('Error: ', $errors));
+        }
     }
 
     public function attemptLogin($username, $pwd): bool
@@ -122,16 +116,16 @@ class AuthService
         try {
             $user = $this->user->getByUsername($username, $username);
         } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e;
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
             return false;
         }
-        $errors = $this->validateLoginUser($username, $pwd, $user);
 
-        if (count($errors) > 0) {
-            array_unshift($errors , 'Invalid Login.');
-            $_SESSION['flash_error_msg'] = $errors;
+        try {
+            $this->validateLoginUser($username, $pwd, $user);
+        } catch (Exception $e) {
+            $_SESSION['flash_error_msg'] = array_merge(['Invalid Login.'], explode('Error: ', $e->getMessage()));
             return false;
-        } 
+        }
 
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_username'] = $user->username;

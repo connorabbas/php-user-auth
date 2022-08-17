@@ -33,10 +33,8 @@ class UserController
     {
         handleCsrf();
 
-        // TODO
-        // handle input validation
-
         (new UserService($this->db))->updateName($_SESSION['user_id'], $_POST['name']);
+        
         back();
     }
 }

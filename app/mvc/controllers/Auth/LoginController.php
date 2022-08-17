@@ -26,9 +26,6 @@ class LoginController
     public function doLogin()
     {
         handleCsrf();
-
-        // TODO
-        // handle input validation
         
         if (!$this->auth->attemptLogin($_POST['username'], $_POST['password'])) {
             back();
