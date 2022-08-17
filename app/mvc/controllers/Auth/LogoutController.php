@@ -21,5 +21,7 @@ class LogoutController
         handleCsrf();
         
         $this->auth->logout();
+
+        redirect('/');
     }
 }
