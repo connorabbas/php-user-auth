@@ -19,6 +19,9 @@
                     <span class="navbar-text text-light me-4">
                         Welcome, <?= $_SESSION['user_name'] ?>
                     </span>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="/account">Account</a>
+                    </li>
                     <li class="nav-item">
                         <form action="/logout" method="post">
                             <?= csrf() ?>

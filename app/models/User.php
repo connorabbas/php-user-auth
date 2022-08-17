@@ -4,22 +4,7 @@ namespace App\Models;
 
 class User extends Model
 {
-    function create($name, $email, $username, $password)
-    {
-        $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users(name, email, username, password) 
-            VALUES(:name, :email, :username, :password);";
-
-        $this->db->query($sql)
-            ->bind(':name', $name)
-            ->bind(':email', $email)
-            ->bind(':username', $username)
-            ->bind(':password', $hashedPwd);
-
-        return $this->db->execute();
-    }
-
-    function getById($id)
+    public function getById($id)
     {
         $sql = "SELECT * FROM users 
             WHERE id = :id;";
@@ -34,7 +19,7 @@ class User extends Model
         return false;
     }
 
-    function getByUsername($username, $email)
+    public function getByUsername($username, $email)
     {
         $sql = "SELECT * FROM users 
             WHERE username = :username OR email = :email;";
@@ -48,6 +33,34 @@ class User extends Model
         }
 
         return false;
+    }
+
+    public function create($name, $email, $username, $password)
+    {
+        $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO users(name, email, username, password) 
+            VALUES(:name, :email, :username, :password);";
+
+        $this->db->query($sql)
+            ->bind(':name', $name)
+            ->bind(':email', $email)
+            ->bind(':username', $username)
+            ->bind(':password', $hashedPwd);
+
+        return $this->db->execute();
+    }
+
+    public function updateName(int $userId, string $newName)
+    {
+        $sql = "UPDATE users
+            SET name = :name
+            WHERE id = :id";
+
+        $this->db->query($sql)
+            ->bind(':name', $newName)
+            ->bind(':id', $userId);
+
+        return $this->db->execute();
     }
 
     /* 
