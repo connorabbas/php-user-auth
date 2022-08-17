@@ -95,7 +95,7 @@ class AuthService
                 $this->user->create($name, $email, $username, $pwd);
                 return true;
             } catch (Exception $e) {
-                $_SESSION['flash_error_msg'] = 'Database error. Contact support staff.';
+                $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e;
                 return false;
             }
         }
@@ -122,7 +122,7 @@ class AuthService
         try {
             $user = $this->user->getByUsername($username, $username);
         } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Database error. Contact support staff.';
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e;
             return false;
         }
         $errors = $this->validateLoginUser($username, $pwd, $user);
