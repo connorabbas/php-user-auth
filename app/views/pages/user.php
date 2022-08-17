@@ -18,13 +18,13 @@ $this->layout('template::main', [
                         <div class="card shadow" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Update Info</h3>
-                                <form action="tbd" method="post">
+                                <form action="/update-name" method="post">
+                                    <?= csrf() ?>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Name</label>
-                                        <input type="text" class="form-control form-control-sm" name="username"
-                                            placeholder="Username" value="<?= $user->name ?>" required>
+                                        <input type="text" class="form-control form-control-sm" name="name" value="<?= $user->name ?>" required>
                                     </div>
-                                    <button class="btn btn-primary" name="updateSubmit">Update</button>
+                                    <button class="btn btn-primary" type="submit" name="updateSubmit">Update</button>
                                 </form>
                             </div>
                         </div>
