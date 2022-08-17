@@ -15,7 +15,7 @@ $this->layout('template::main', [
                         <?= errorFlashMessage() ?>
 
                         <!-- Form -->
-                        <div class="card shadow" style="width: 22rem; margin: 0 auto;">
+                        <div class="card shadow mb-4" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Account Info</h3>
                                 <form action="/update-name" method="post">
@@ -34,8 +34,13 @@ $this->layout('template::main', [
                                     </div>
                                     <button class="btn btn-primary" type="submit" name="updateSubmit">Update</button>
                                 </form>
+                                <form action="delete-account" method="post">
+                                    <input type="hidden" name="delete" value="true">
+                                </form>
+                                <!-- TODO Delete account modal -->
                             </div>
                         </div>
+                        <button class="btn btn-danger" type="button" name="deleteAccountBtn">Delete Account</button>
                     </div>
                 </div>
             </div>
