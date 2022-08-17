@@ -50,15 +50,27 @@ class User extends Model
         return $this->db->execute();
     }
 
-    public function updateName(int $userId, string $newName)
+    public function update(int $userId, array $properties)
     {
+        $setString = '';
+        foreach ($properties as $property => $value) {
+            $setString .= $property . ' = ' . ':' . $property;
+            if ($property != array_key_last($properties)) {
+                $setString .= ', ';
+            } else {
+                $setString .= ' ';
+            }
+        }
+
         $sql = "UPDATE users
-            SET name = :name
+            SET $setString
             WHERE id = :id";
 
-        $this->db->query($sql)
-            ->bind(':name', $newName)
-            ->bind(':id', $userId);
+        $this->db->query($sql);
+        foreach ($properties as $property => $value) {
+            $this->db->bind(':' . $property, $value);
+        }
+        $this->db->bind(':id', $userId);
 
         return $this->db->execute();
     }
