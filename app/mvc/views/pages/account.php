@@ -15,7 +15,7 @@ $this->layout('template::main', [
                         <?= errorFlashMessage() ?>
 
                         <!-- Form -->
-                        <div class="card shadow mb-4" style="width: 22rem; margin: 0 auto;">
+                        <div class="card shadow-sm mb-4" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Account Info</h3>
                                 <form action="/update-name" method="post">
