@@ -11,7 +11,7 @@ $this->layout('template::main', [
                 <div class="col">
                     <div style="width: 22rem; margin: 0 auto;">
                         <?= errorFlashMessage() ?>
-                        <div class="card shadow" style="width: 22rem; margin: 0 auto;">
+                        <div class="card shadow-sm" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Login</h3>
                                 <form action="/login" method="post">

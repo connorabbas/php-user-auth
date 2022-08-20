@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top" style="z-index: 10000;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top shadow" style="z-index: 10000;">
     <div class="container">
         <a class="navbar-brand" href="/">PHP User Auth</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

@@ -5,7 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Core\DB;
 use App\Core\View;
-use App\MVC\Models\User;
+use App\Models\User;
 
 class AuthService
 {
@@ -31,29 +31,17 @@ class AuthService
 
     public function invalidUsername($username): bool
     {
-        if (!preg_match('/^[a-zA-Z0-9]*$/', $username)) {
-            return true;
-        }
-        
-        return false;
+        return (!preg_match('/^[a-zA-Z0-9]*$/', $username)) ? true : false;
     }
 
     public function invalidEmail($email): bool
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-        }
-
-        return false;
+        return (!filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;
     }
 
     public function pwdMatch($pwd, $pwdR): bool
     {
-        if ($pwd !== $pwdR) {
-            return true;
-        }
-
-        return false;
+        return ($pwd !== $pwdR) ? true : false;
     }
 
     public function validateRegisterUser($name, $email, $username, $pwd, $pwdR): void
@@ -72,7 +60,7 @@ class AuthService
             $errors[] = 'This username or email already exists.';
         }
         if (count($errors)) {
-            throw new Exception(implode('Error: ', $errors));
+            throw new Exception(implode(' - ', $errors));
         }
     }
 
@@ -81,7 +69,7 @@ class AuthService
         try {
             $this->validateRegisterUser($name, $email, $username, $pwd, $pwdR);
         } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = array_merge(['Not Registered.'], explode('Error: ', $e->getMessage()));
+            $_SESSION['flash_error_msg'] = array_merge(['Not Registered.'], explode(' - ', $e->getMessage()));
             return false;
         }
 
@@ -107,7 +95,7 @@ class AuthService
             $errors[] = 'Incorrect password.';
         }
         if (count($errors)) {
-            throw new Exception(implode('Error: ', $errors));
+            throw new Exception(implode(' - ', $errors));
         }
     }
 
@@ -123,13 +111,14 @@ class AuthService
         try {
             $this->validateLoginUser($username, $pwd, $user);
         } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = array_merge(['Invalid Login.'], explode('Error: ', $e->getMessage()));
+            $_SESSION['flash_error_msg'] = array_merge(['Invalid Login.'], explode(' - ', $e->getMessage()));
             return false;
         }
 
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_username'] = $user->username;
         $_SESSION['user_name'] = $user->name;
+
         return true;
     }
 
@@ -151,5 +140,11 @@ class AuthService
             View::show('pages.403');
             exit();
         }
+    }
+
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
     }
 }

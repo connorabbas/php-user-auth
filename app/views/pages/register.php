@@ -11,7 +11,7 @@ $this->layout('template::main', [
                 <div class="col">
                     <div style="width: 22rem; margin: 0 auto;">
                         <?= errorFlashMessage() ?>
-                        <div class="card shadow">
+                        <div class="card shadow-sm">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Register</h3>
                                 <form action="/register" method="post">

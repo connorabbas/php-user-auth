@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Core\DB;
-use App\MVC\Models\User;
+use App\Models\User;
 use Exception;
 
 class UserService

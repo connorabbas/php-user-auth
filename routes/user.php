@@ -1,6 +1,6 @@
 <?php
 
-use App\MVC\Controllers\UserController;
+use App\Controllers\UserController;
 
 // Valid Routes for Site
 
