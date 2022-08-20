@@ -5,7 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Core\DB;
 use App\Core\View;
-use App\MVC\Models\User;
+use App\Models\User;
 
 class AuthService
 {
@@ -31,29 +31,17 @@ class AuthService
 
     public function invalidUsername($username): bool
     {
-        if (!preg_match('/^[a-zA-Z0-9]*$/', $username)) {
-            return true;
-        }
-        
-        return false;
+        return (!preg_match('/^[a-zA-Z0-9]*$/', $username)) ? true : false;
     }
 
     public function invalidEmail($email): bool
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-        }
-
-        return false;
+        return (!filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;
     }
 
     public function pwdMatch($pwd, $pwdR): bool
     {
-        if ($pwd !== $pwdR) {
-            return true;
-        }
-
-        return false;
+        return ($pwd !== $pwdR) ? true : false;
     }
 
     public function validateRegisterUser($name, $email, $username, $pwd, $pwdR): void

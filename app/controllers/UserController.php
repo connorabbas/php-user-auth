@@ -1,10 +1,10 @@
 <?php
 
-namespace App\MVC\Controllers;
+namespace App\Controllers;
 
 use App\Core\DB;
 use App\Core\View;
-use App\MVC\Models\User;
+use App\Models\User;
 use App\Services\AuthService;
 use App\Services\UserService;
 
