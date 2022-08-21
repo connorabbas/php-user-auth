@@ -11,10 +11,10 @@ class UserService
     protected $db;
     public $user;
 
-    public function __construct(DB $db)
+    public function __construct(DB $db, User $user)
     {
         $this->db = $db;
-        $this->user = new User($this->db);
+        $this->user = $user;
     }
 
     public function updateName($userId, $newName)
