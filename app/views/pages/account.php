@@ -40,7 +40,7 @@ $this->layout('template::main', [
                                 <!-- TODO Delete account modal -->
                             </div>
                         </div>
-                        <button class="btn btn-danger" type="button" name="deleteAccountBtn">Delete Account</button>
+                        <button class="btn btn-outline-danger" type="button" name="deleteAccountBtn">Delete Account</button>
                     </div>
                 </div>
             </div>

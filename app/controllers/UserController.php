@@ -12,17 +12,19 @@ class UserController
 {
     protected $db;
     private $auth;
+    private $user;
 
     public function __construct()
     {
         $this->db = new DB();
-        $this->auth = new AuthService($this->db);
+        $this->user = new User($this->db);
+        $this->auth = new AuthService($this->db, $this->user);
         $this->auth->userAccessOnly();
     }
 
     public function index()
     {
-        $user = (new User($this->db))->getById($_SESSION['user_id']);
+        $user = $this->user->getById($_SESSION['user_id']);
         
         return View::show('pages.account', [
             'user' => $user
@@ -33,7 +35,7 @@ class UserController
     {
         handleCsrf();
 
-        (new UserService($this->db))->updateName($_SESSION['user_id'], $_POST['name']);
+        (new UserService($this->db, $this->user))->updateName($_SESSION['user_id'], $_POST['name']);
         
         back();
     }
