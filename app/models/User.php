@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Core\Model;
+
 class User extends Model
 {
     public function getById($id)

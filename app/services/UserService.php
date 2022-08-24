@@ -24,8 +24,7 @@ class UserService
         ];
 
         try {
-            $user = $this->user->getById($userId);
-            if ($user->name == $newName) {
+            if ($this->user->getById($userId)->name == $newName) {
                 $_SESSION['flash_error_msg'] = 'Name was NOT updated. Please enter a different name.';
                 return false;
             }
