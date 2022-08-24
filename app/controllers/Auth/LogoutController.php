@@ -14,7 +14,7 @@ class LogoutController
     public function __construct()
     {
         $this->db = new DB();
-        $this->auth = new AuthService($this->db, new User($this->db));
+        $this->auth = new AuthService(new User($this->db));
     }
 
     public function doLogout()

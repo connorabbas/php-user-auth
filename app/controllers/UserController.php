@@ -18,7 +18,7 @@ class UserController
     {
         $this->db = new DB();
         $this->user = new User($this->db);
-        $this->auth = new AuthService($this->db, $this->user);
+        $this->auth = new AuthService($this->user);
         $this->auth->userAccessOnly();
     }
 
@@ -35,7 +35,7 @@ class UserController
     {
         handleCsrf();
 
-        (new UserService($this->db, $this->user))->updateName($_SESSION['user_id'], $_POST['name']);
+        (new UserService($this->user))->updateName($_SESSION['user_id'], $_POST['name']);
         
         back();
     }

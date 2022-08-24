@@ -2,18 +2,15 @@
 
 namespace App\Services;
 
-use App\Core\DB;
-use App\Models\User;
 use Exception;
+use App\Models\User;
 
 class UserService
 {
-    protected $db;
     public $user;
 
-    public function __construct(DB $db, User $user)
+    public function __construct(User $user)
     {
-        $this->db = $db;
         $this->user = $user;
     }
 
@@ -40,5 +37,4 @@ class UserService
             return false;
         }
     }
-
 }
