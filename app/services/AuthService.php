@@ -3,18 +3,15 @@
 namespace App\Services;
 
 use Exception;
-use App\Core\DB;
 use App\Core\View;
 use App\Models\User;
 
 class AuthService
 {
-    protected $db;
     public $user;
 
-    public function __construct(DB $db, User $user)
+    public function __construct(User $user)
     {
-        $this->db = $db;
         $this->user = $user;
     }
 

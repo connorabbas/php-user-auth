@@ -2,18 +2,15 @@
 
 namespace App\Services;
 
-use App\Core\DB;
-use App\Models\User;
 use Exception;
+use App\Models\User;
 
 class UserService
 {
-    protected $db;
     public $user;
 
-    public function __construct(DB $db, User $user)
+    public function __construct(User $user)
     {
-        $this->db = $db;
         $this->user = $user;
     }
 
@@ -24,8 +21,7 @@ class UserService
         ];
 
         try {
-            $user = $this->user->getById($userId);
-            if ($user->name == $newName) {
+            if ($this->user->getById($userId)->name == $newName) {
                 $_SESSION['flash_error_msg'] = 'Name was NOT updated. Please enter a different name.';
                 return false;
             }
@@ -41,5 +37,4 @@ class UserService
             return false;
         }
     }
-
 }
