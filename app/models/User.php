@@ -16,11 +16,7 @@ class User extends Model
         $this->db->query($sql)
             ->bind(':id', $id);
 
-        if ($result = $this->db->single()) {
-            return $result;
-        }
-
-        return false;
+        return $this->db->single();
     }
 
     public function getByUsername($username, $email)
@@ -32,11 +28,7 @@ class User extends Model
             ->bind(':username', $username)
             ->bind(':email', $email);
 
-        if ($result = $this->db->single()) {
-            return $result;
-        }
-
-        return false;
+        return $this->db->single();
     }
 
     public function create($name, $email, $username, $password)
