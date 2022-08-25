@@ -33,7 +33,21 @@ class UserService
             $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
             return true;
         } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e;
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function deleteUser($userId)
+    {
+        try {
+            if (!$this->user->delete($userId)) {
+                $_SESSION['flash_error_msg'] = 'Something went wrong, account was NOT deleted.';
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
             return false;
         }
     }

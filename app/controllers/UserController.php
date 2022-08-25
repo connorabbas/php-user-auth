@@ -31,12 +31,26 @@ class UserController
         ]);
     }
 
-    public function store()
+    public function update()
     {
         handleCsrf();
 
         (new UserService($this->user))->updateName($_SESSION['user_id'], $_POST['name']);
         
         back();
+    }
+
+    public function destroy()
+    {
+        handleCsrf();
+
+        if (!(new UserService($this->user))->deleteUser($_SESSION['user_id'])) {
+            back();
+        }
+
+        $this->auth->logout();
+        $_SESSION['flash_success_msg'] = 'Your account was successfully deleted.';
+        
+        redirect('/');
     }
 }
