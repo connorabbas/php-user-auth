@@ -6,10 +6,12 @@ use App\Core\Model;
 
 class User extends Model
 {
+    private $table = 'users';
+
     public function getById($id)
     {
-        $sql = "SELECT * FROM users 
-            WHERE id = :id;";
+        $sql = "SELECT * FROM $this->table 
+            WHERE id = :id";
 
         $this->db->query($sql)
             ->bind(':id', $id);
@@ -23,8 +25,8 @@ class User extends Model
 
     public function getByUsername($username, $email)
     {
-        $sql = "SELECT * FROM users 
-            WHERE username = :username OR email = :email;";
+        $sql = "SELECT * FROM $this->table 
+            WHERE username = :username OR email = :email";
 
         $this->db->query($sql)
             ->bind(':username', $username)
@@ -40,8 +42,8 @@ class User extends Model
     public function create($name, $email, $username, $password)
     {
         $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users(name, email, username, password) 
-            VALUES(:name, :email, :username, :password);";
+        $sql = "INSERT INTO $this->table(name, email, username, password) 
+            VALUES(:name, :email, :username, :password)";
 
         $this->db->query($sql)
             ->bind(':name', $name)
@@ -64,7 +66,7 @@ class User extends Model
             }
         }
 
-        $sql = "UPDATE users
+        $sql = "UPDATE $this->table
             SET $setString
             WHERE id = :id";
 
@@ -73,6 +75,17 @@ class User extends Model
             $this->db->bind(':' . $property, $value);
         }
         $this->db->bind(':id', $userId);
+
+        return $this->db->execute();
+    }
+
+    public function delete(int $userId)
+    {
+        $sql = "DELETE FROM $this->table
+            WHERE id = :id";
+
+        $this->db->query($sql)
+            ->bind(':id', $userId);
 
         return $this->db->execute();
     }

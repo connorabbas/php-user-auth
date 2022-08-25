@@ -13,12 +13,11 @@ $this->layout('template::main', [
                         <!-- Flash messages -->
                         <?= successFlashMessage() ?>
                         <?= errorFlashMessage() ?>
-
                         <!-- Form -->
                         <div class="card shadow-sm mb-4" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Account Info</h3>
-                                <form action="/update-name" method="post">
+                                <form action="/account" method="POST">
                                     <?= csrf() ?>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Name</label>
@@ -34,10 +33,6 @@ $this->layout('template::main', [
                                     </div>
                                     <button class="btn btn-primary" type="submit" name="updateSubmit">Update</button>
                                 </form>
-                                <form action="delete-account" method="post">
-                                    <input type="hidden" name="delete" value="true">
-                                </form>
-                                <!-- TODO Delete account modal -->
                             </div>
                         </div>
                         <button class="btn btn-outline-danger" type="button" name="deleteAccountBtn">Delete Account</button>
@@ -47,3 +42,32 @@ $this->layout('template::main', [
         </div>
     </div>
 </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <form action="/delete-account" method="POST" name="deleteAccountForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete your account? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <?= csrf() ?>
+                    <input type="hidden" name="delete" value="true">
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php $this->push('scripts') ?>
+<script>
+    $(document).ready(function() {
+        $('button[name="deleteAccountBtn"]').click(function() {
+            $('#deleteModal').modal('show');
+        });
+    });
+</script>
+<?php $this->end() ?>
