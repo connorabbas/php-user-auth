@@ -21,7 +21,7 @@ class LoginController
 
     public function index()
     {
-        return View::show('pages.auth.login');
+        return View::render('pages.auth.login');
     }
 
     public function doLogin()

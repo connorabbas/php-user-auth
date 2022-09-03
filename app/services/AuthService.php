@@ -126,16 +126,16 @@ class AuthService
             $validUser = $this->user->getById($_SESSION['user_id']);
         }
         if (!$validUser) {
-            View::show('pages.403');
-            exit();
+            echo View::render('pages.403');
+            exit;
         }
     }
 
     public function guestAccessOnly()
     {
         if (loggedIn() && $this->user->getById($_SESSION['user_id']) !== false) {
-            View::show('pages.403');
-            exit();
+            echo View::render('pages.403');
+            exit;
         }
     }
 
