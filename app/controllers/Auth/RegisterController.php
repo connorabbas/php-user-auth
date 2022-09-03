@@ -21,7 +21,7 @@ class RegisterController
 
     public function index()
     {
-        return View::show('pages.auth.register');
+        return View::render('pages.auth.register');
     }
 
     public function store()
