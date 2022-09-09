@@ -19,6 +19,7 @@ $this->layout('template::main', [
                                 <h3 class="card-title mb-3">Account Info</h3>
                                 <form action="/account" method="POST">
                                     <?= csrf() ?>
+                                    <?= methodSpoof('PATCH') ?>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Name</label>
                                         <input type="text" class="form-control form-control-sm" name="name" value="<?= $user->name ?>" required>
@@ -55,6 +56,7 @@ $this->layout('template::main', [
                 </div>
                 <div class="modal-footer">
                     <?= csrf() ?>
+                    <?= methodSpoof('DELETE') ?>
                     <input type="hidden" name="delete" value="true">
                     <button type="submit" class="btn btn-danger">Yes, Delete</button>
                 </div>

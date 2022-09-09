@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use Exception;
 use League\Plates\Engine;
 
 class View
