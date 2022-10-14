@@ -11,15 +11,17 @@ use App\Services\UserService;
 class UserController
 {
     protected $db;
-    private $auth;
+    private $authService;
+    private $userService;
     private $user;
 
     public function __construct()
     {
         $this->db = new DB();
         $this->user = new User($this->db);
-        $this->auth = new AuthService($this->user);
-        $this->auth->userAccessOnly();
+        $this->authService = new AuthService($this->user);
+        $this->userService = new UserService($this->user);
+        $this->authService->userAccessOnly();
     }
 
     public function index()
@@ -35,7 +37,7 @@ class UserController
     {
         handleCsrf();
 
-        (new UserService($this->user))->updateName($_SESSION['user_id'], $_POST['name']);
+        $this->userService->updateName($_SESSION['user_id'], $_POST['name']);
         
         back();
     }
@@ -44,7 +46,7 @@ class UserController
     {
         handleCsrf();
 
-        if (!(new UserService($this->user))->deleteUser($_SESSION['user_id'])) {
+        if (!$this->userService->deleteUser($_SESSION['user_id'])) {
             back();
         }
 

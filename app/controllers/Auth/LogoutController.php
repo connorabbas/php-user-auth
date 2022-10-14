@@ -9,19 +9,19 @@ use App\Services\AuthService;
 class LogoutController
 {
     protected $db;
-    private $auth;
+    private $authService;
 
     public function __construct()
     {
         $this->db = new DB();
-        $this->auth = new AuthService(new User($this->db));
+        $this->authService = new AuthService(new User($this->db));
     }
 
     public function doLogout()
     {
         handleCsrf();
         
-        $this->auth->logout();
+        $this->authService->logout();
 
         redirect('/');
     }

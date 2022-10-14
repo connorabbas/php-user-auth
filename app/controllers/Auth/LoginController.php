@@ -10,13 +10,13 @@ use App\Services\AuthService;
 class LoginController
 {
     protected $db;
-    private $auth;
+    private $authService;
 
     public function __construct()
     {
         $this->db = new DB();
-        $this->auth = new AuthService(new User($this->db));
-        $this->auth->guestAccessOnly();
+        $this->authService = new AuthService(new User($this->db));
+        $this->authService->guestAccessOnly();
     }
 
     public function index()
@@ -28,7 +28,7 @@ class LoginController
     {
         handleCsrf();
         
-        if (!$this->auth->attemptLogin($_POST['username'], $_POST['password'])) {
+        if (!$this->authService->attemptLogin($_POST['username'], $_POST['password'])) {
             back();
         }
 
