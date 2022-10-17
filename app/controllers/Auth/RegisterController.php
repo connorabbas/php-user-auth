@@ -6,17 +6,22 @@ use App\Core\DB;
 use App\Core\View;
 use App\Models\User;
 use App\Services\AuthService;
+use App\Services\UserService;
 
 class RegisterController
 {
     protected $db;
-    private $auth;
+    private $authService;
+    private $userService;
+    private $user;
 
     public function __construct()
     {
         $this->db = new DB();
-        $this->auth = new AuthService(new User($this->db));
-        $this->auth->guestAccessOnly();
+        $this->user = new User($this->db);
+        $this->authService = new AuthService($this->user);
+        $this->userService = new UserService($this->user);
+        $this->authService->guestAccessOnly();
     }
 
     public function index()
@@ -34,10 +39,10 @@ class RegisterController
         $pwd = $_POST['password'];
         $pwdR = $_POST['passwordR'];
 
-        if (!$this->auth->createUser($name, $email, $username, $pwd, $pwdR)) {
+        if (!$this->userService->createUser($name, $email, $username, $pwd, $pwdR)) {
             back();
         } 
-        if (!$this->auth->attemptLogin($username, $pwd)) {
+        if (!$this->authService->attemptLogin($username, $pwd)) {
             redirect('/login');
         }
 
