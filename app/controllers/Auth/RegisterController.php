@@ -2,25 +2,19 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\DB;
 use App\Core\View;
-use App\Models\User;
 use App\Services\AuthService;
 use App\Services\UserService;
 
 class RegisterController
 {
-    protected $db;
     private $authService;
     private $userService;
-    private $user;
 
-    public function __construct()
+    public function __construct(AuthService $authService, UserService $userService)
     {
-        $this->db = new DB();
-        $this->user = new User($this->db);
-        $this->authService = new AuthService($this->user);
-        $this->userService = new UserService($this->user);
+        $this->authService = $authService;
+        $this->userService = $userService;
         $this->authService->guestAccessOnly();
     }
 

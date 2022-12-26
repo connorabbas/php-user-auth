@@ -3,14 +3,16 @@
 namespace App\Core;
 
 use App\Core\View;
+use App\Core\Container;
 
 class Router
 {
-    private $validRoute;
+    private $validRoute = false;
+    private $container;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->validRoute = false;
+        $this->container = $container;
     }
 
     private function set(string $route, $callback)
@@ -26,14 +28,14 @@ class Router
         $requestUrlParts = explode('/', $requestUrl);
         array_shift($routeParts);
         array_shift($requestUrlParts);
-    
-        if ($routeParts[0] == '' && count($requestUrlParts) == 0 ) {
+
+        if ($routeParts[0] == '' && count($requestUrlParts) == 0) {
             $this->completeRoute($callback);
         }
         if (count($routeParts) != count($requestUrlParts)) {
             return;
-        } 
-    
+        }
+
         $parameters = [];
         for ($i = 0; $i < count($routeParts); $i++) {
             $routePart = $routeParts[$i];
@@ -45,10 +47,9 @@ class Router
                 if (!isset($_REQUEST[$routePart])) {
                     $_REQUEST[$routePart] = $$routePart;
                 }
-            }
-            else if ($routeParts[$i] != $requestUrlParts[$i]) {
+            } else if ($routeParts[$i] != $requestUrlParts[$i]) {
                 return;
-            } 
+            }
         }
 
         $this->completeRoute($callback);
@@ -62,16 +63,15 @@ class Router
                 $className = $callback[0];
                 $methodName = $callback[1];
                 $fullClassName = "\\$className";
-                $obj = new $fullClassName();
+                // use the container to get the class
+                $obj = $this->container->get($fullClassName);
                 $this->validRoute = true;
                 return call_user_func_array([$obj, $methodName],  []);
-            } 
-        }
-        else if (is_callable($callback)) {
+            }
+        } else if (is_callable($callback)) {
             $this->validRoute = true;
             return call_user_func($callback);
-        }
-        else if (is_string($callback)) {
+        } else if (is_string($callback)) {
             $this->validRoute = true;
             return View::render($callback);
         }
@@ -87,7 +87,7 @@ class Router
             }
             echo $returned;
             return;
-        } 
+        }
 
         return $returned;
     }
@@ -95,6 +95,7 @@ class Router
     public function checkRoute()
     {
         if (!$this->validRoute) {
+            http_response_code(404);
             echo View::render('pages.404');
             return;
         }
@@ -111,21 +112,21 @@ class Router
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->set($route, $view);
-        } 
+        }
     }
 
     public function get($route, $callback)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->set($route, $callback);
-        } 
+        }
     }
 
     public function post($route, $callback)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->set($route, $callback);
-        } 
+        }
     }
 
     public function patch($route, $callback)
@@ -133,7 +134,7 @@ class Router
         $this->handleMethodSpoof('PATCH');
         if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
             $this->set($route, $callback);
-        } 
+        }
     }
 
     public function put($route, $callback)
@@ -141,7 +142,7 @@ class Router
         $this->handleMethodSpoof('PUT');
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $this->set($route, $callback);
-        } 
+        }
     }
 
     public function delete($route, $callback)
@@ -149,6 +150,6 @@ class Router
         $this->handleMethodSpoof('DELETE');
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             $this->set($route, $callback);
-        } 
+        }
     }
 }

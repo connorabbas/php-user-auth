@@ -2,19 +2,15 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\DB;
-use App\Models\User;
 use App\Services\AuthService;
 
 class LogoutController
 {
-    protected $db;
     private $authService;
 
-    public function __construct()
+    public function __construct(AuthService $authService)
     {
-        $this->db = new DB();
-        $this->authService = new AuthService(new User($this->db));
+        $this->authService = $authService;
     }
 
     public function doLogout()

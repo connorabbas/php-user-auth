@@ -2,17 +2,19 @@
 
 namespace App\Data;
 
+use PDO;
+
 class Config
 {
-    protected $config = [];
+    private $data = [];
 
     public function __construct(array $env)
     {
-        $this->config = [
+        $this->data = [
             'site' => [
                 'environment' => $env['ENV'],
                 'title' => 'Welcome!',
-                'description' => 'Basic auth system built with PHP',
+                'description' => 'Basic auth system built with PHP.',
             ],
             'database' => [
                 'main' => [
@@ -21,6 +23,25 @@ class Config
                     'username' => $env['DB_USERNAME'],
                     'password' => $env['DB_PASSWORD'],
                     'name' => $env['DB_NAME'],
+                    'pdo_options' => [
+                        PDO::ATTR_PERSISTENT => false,
+                        PDO::ATTR_EMULATE_PREPARES => false,
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+                    ]
+                ],
+                'alt' => [
+                    'driver' => $env['DB_DRIVER'],
+                    'host' => $env['DB_HOST'],
+                    'username' => $env['DB_USERNAME'],
+                    'password' => $env['DB_PASSWORD'],
+                    'name' => $env['DB_NAME_2'],
+                    'pdo_options' => [
+                        PDO::ATTR_PERSISTENT => false,
+                        PDO::ATTR_EMULATE_PREPARES => false,
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+                    ]
                 ],
             ],
             'plates_templates' => [
@@ -33,6 +54,6 @@ class Config
 
     public function get()
     {
-        return $this->config;
+        return $this->data;
     }
 }

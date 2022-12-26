@@ -1,6 +1,8 @@
 # PHP User Auth
 A simple user authentication system built with [PHP Basic Framework](https://github.com/connorabbas/basic-framework)
 
+Not meant for production use.
+
 ## About
 - User registration 
 - Login / Logout functionality

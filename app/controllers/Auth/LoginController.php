@@ -2,20 +2,16 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\DB;
 use App\Core\View;
-use App\Models\User;
 use App\Services\AuthService;
 
 class LoginController
 {
-    protected $db;
     private $authService;
 
-    public function __construct()
+    public function __construct(AuthService $authService)
     {
-        $this->db = new DB();
-        $this->authService = new AuthService(new User($this->db));
+        $this->authService = $authService;
         $this->authService->guestAccessOnly();
     }
 

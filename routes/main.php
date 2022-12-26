@@ -7,15 +7,15 @@ use App\Controllers\Auth\RegisterController;
 
 // Valid Routes for Site
 
-$router->view('/', 'pages.welcome');
+$this->router->view('/', 'pages.welcome');
 
-$router->get('/register', [RegisterController::class, 'index']);
-$router->post('/register', [RegisterController::class, 'store']);
+$this->router->get('/register', [RegisterController::class, 'index']);
+$this->router->post('/register', [RegisterController::class, 'store']);
 
-$router->get('/login', [LoginController::class, 'index']);
-$router->post('/login', [LoginController::class, 'doLogin']);
-$router->post('/logout', [LogoutController::class, 'doLogout']);
+$this->router->get('/login', [LoginController::class, 'index']);
+$this->router->post('/login', [LoginController::class, 'doLogin']);
+$this->router->post('/logout', [LogoutController::class, 'doLogout']);
 
-$router->get('/account', [UserController::class, 'index']);
-$router->patch('/account', [UserController::class, 'update']);
-$router->delete('/delete-account', [UserController::class, 'destroy']);
+$this->router->get('/account', [UserController::class, 'index']);
+$this->router->patch('/account', [UserController::class, 'update']);
+$this->router->delete('/account', [UserController::class, 'destroy']);

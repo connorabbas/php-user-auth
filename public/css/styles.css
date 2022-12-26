@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
 
-* {
-    border-radius: 0 !important;
-}
-
 body {
     font-family: 'Roboto Mono', monospace;
 }
