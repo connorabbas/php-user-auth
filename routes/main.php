@@ -18,4 +18,4 @@ $this->router->post('/logout', [LogoutController::class, 'doLogout']);
 
 $this->router->get('/account', [UserController::class, 'index']);
 $this->router->patch('/account', [UserController::class, 'update']);
-$this->router->delete('/delete-account', [UserController::class, 'destroy']);
+$this->router->delete('/account', [UserController::class, 'destroy']);

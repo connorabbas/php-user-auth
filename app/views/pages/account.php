@@ -46,7 +46,7 @@ $this->layout('template::main', [
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <form action="/delete-account" method="POST" name="deleteAccountForm">
+            <form action="/account" method="POST" name="deleteAccountForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Delete Account</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -22,9 +22,10 @@ class UserController
     {
         $user = $this->userService->getById($_SESSION['user_id']);
         
-        return View::render('pages.account', [
-            'user' => $user
-        ]);
+        return View::render(
+            'pages.account',
+            ['user' => $user]
+        );
     }
 
     public function update()
@@ -44,7 +45,7 @@ class UserController
             back();
         }
 
-        $this->auth->logout();
+        $this->authService->logout();
         $_SESSION['flash_success_msg'] = 'Your account was successfully deleted.';
         
         redirect('/');
