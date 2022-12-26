@@ -2,8 +2,6 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\DB;
-use App\Models\User;
 use App\Services\AuthService;
 
 class LogoutController

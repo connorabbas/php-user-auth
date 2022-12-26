@@ -2,9 +2,7 @@
 
 namespace App\Controllers\Auth;
 
-use App\Core\DB;
 use App\Core\View;
-use App\Models\User;
 use App\Services\AuthService;
 use App\Services\UserService;
 
