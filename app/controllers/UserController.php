@@ -12,11 +12,9 @@ class UserController
 {
     private $authService;
     private $userService;
-    private $user;
 
-    public function __construct(User $user, AuthService $authService, UserService $userService)
+    public function __construct(AuthService $authService, UserService $userService)
     {
-        $this->user = $user;
         $this->authService = $authService;
         $this->userService = $userService;
         $this->authService->userAccessOnly();
@@ -24,7 +22,7 @@ class UserController
 
     public function index()
     {
-        $user = $this->user->getById($_SESSION['user_id']);
+        $user = $this->userService->getById($_SESSION['user_id']);
         
         return View::render('pages.account', [
             'user' => $user

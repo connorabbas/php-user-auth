@@ -9,24 +9,24 @@ use App\Validation\ValidateUser;
 
 class AuthService
 {
-    public $user;
+    public $userData;
 
     public function __construct(User $user)
     {
-        $this->user = $user;
+        $this->userData = $user;
     }
 
     public function attemptLogin($username, $pwd): bool
     {
         try {
-            $user = $this->user->getByUsername($username, $username);
+            $user = $this->userData->getByUsername($username, $username);
         } catch (Exception $e) {
             $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
             return false;
         }
 
         try {
-            (New ValidateUser($this->user))->validateLoginUser($username, $pwd, $user);
+            (New ValidateUser($this->userData))->validateLoginUser($username, $pwd, $user);
         } catch (Exception $e) {
             $_SESSION['flash_error_msg'] = array_merge(['Invalid Login.'], explode(' - ', $e->getMessage()));
             return false;
@@ -43,7 +43,7 @@ class AuthService
     {
         $validUser = false;
         if (loggedIn()) {
-            $validUser = $this->user->getById($_SESSION['user_id']);
+            $validUser = $this->userData->getById($_SESSION['user_id']);
         }
         if (!$validUser) {
             $this->logout();
@@ -54,7 +54,7 @@ class AuthService
 
     public function guestAccessOnly()
     {
-        if (loggedIn() && $this->user->getById($_SESSION['user_id']) !== false) {
+        if (loggedIn() && $this->userData->getById($_SESSION['user_id']) !== false) {
             echo View::render('pages.403');
             exit;
         }
