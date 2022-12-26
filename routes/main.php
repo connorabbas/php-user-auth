@@ -1,21 +1,21 @@
 <?php
 
-use App\Controllers\UserController;
-use App\Controllers\Auth\LoginController;
-use App\Controllers\Auth\LogoutController;
-use App\Controllers\Auth\RegisterController;
+use App\Controllers\ExampleController;
 
 // Valid Routes for Site
 
-$router->view('/', 'pages.welcome');
+$this->router->view('/', 'pages.welcome');
 
-$router->get('/register', [RegisterController::class, 'index']);
-$router->post('/register', [RegisterController::class, 'store']);
+$this->router->get(
+    '/json/$test',
+    function () {
+        return json_encode(
+            [
+                'foo' => 'bar',
+                'test' => $_REQUEST['test'],
+            ]
+        );
+    }
+);
 
-$router->get('/login', [LoginController::class, 'index']);
-$router->post('/login', [LoginController::class, 'doLogin']);
-$router->post('/logout', [LogoutController::class, 'doLogout']);
-
-$router->get('/account', [UserController::class, 'index']);
-$router->patch('/account', [UserController::class, 'update']);
-$router->delete('/delete-account', [UserController::class, 'destroy']);
+$this->router->get('/example', [ExampleController::class, 'index']);
