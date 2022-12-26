@@ -14,8 +14,7 @@ class Config
             'site' => [
                 'environment' => $env['ENV'],
                 'title' => 'Welcome!',
-                'description' => 'A full-stack PHP framework that gives you the basics for starting a web project in a lightweight package.
-                ',
+                'description' => 'Basic auth system built with PHP.',
             ],
             'database' => [
                 'main' => [

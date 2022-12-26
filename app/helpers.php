@@ -81,6 +81,16 @@ if (!function_exists('csrfValid')) {
     }
 }
 
+if (!function_exists('handleCsrf')) {
+    function handleCsrf()
+    {
+        if (!csrfValid()) {
+            $_SESSION['flash_error_msg'] = 'Invalid request. Possible cross site request forgery detected.';
+            back();
+        }
+    }
+}
+
 /**
  * Redirect to a different route
  */
