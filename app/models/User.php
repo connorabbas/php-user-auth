@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use App\Core\DB;
 use App\Core\Model;
 
 class User extends Model
 {
     private $table = 'users';
+
+    // example to show how to use a different db connection on a model
+    /* public function __construct()
+    {
+        $this->db = new DB(config('database.alt'));
+    } */
 
     public function getById($id)
     {

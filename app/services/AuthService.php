@@ -46,6 +46,7 @@ class AuthService
             $validUser = $this->user->getById($_SESSION['user_id']);
         }
         if (!$validUser) {
+            $this->logout();
             echo View::render('pages.403');
             exit;
         }

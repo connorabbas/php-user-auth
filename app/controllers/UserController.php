@@ -10,17 +10,15 @@ use App\Services\UserService;
 
 class UserController
 {
-    protected $db;
     private $authService;
     private $userService;
     private $user;
 
-    public function __construct()
+    public function __construct(User $user, AuthService $authService, UserService $userService)
     {
-        $this->db = new DB();
-        $this->user = new User($this->db);
-        $this->authService = new AuthService($this->user);
-        $this->userService = new UserService($this->user);
+        $this->user = $user;
+        $this->authService = $authService;
+        $this->userService = $userService;
         $this->authService->userAccessOnly();
     }
 
