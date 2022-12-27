@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\DB;
+use App\Core\DBAlt;
 use App\Core\Model;
 
 class User extends Model
@@ -14,6 +15,22 @@ class User extends Model
     {
         $this->db = new DB(config('database.alt'));
     } */
+
+    // example to Use an extended DB class with a different connection
+    // set in the container to avoid multiple established connections in one request
+    /* public function __construct(DBAlt $db)
+    {
+        $this->db = $db;
+    } */
+
+    public function getAll()
+    {
+        $sql = "SELECT * FROM $this->table";
+
+        $this->db->query($sql);
+
+        return $this->db->resultSet();
+    }
 
     public function getById($id)
     {
