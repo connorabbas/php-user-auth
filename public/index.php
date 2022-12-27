@@ -41,11 +41,10 @@ if (config('site.environment') == 'local') {
     error_reporting(E_ALL);
 }
 
-$container = new Container();
-
 // if we would want to manually set the DB in the container
 // making sure there is only one DB connection per request
-/* $db = new DB();
+/* $container = new Container();
+$db = new DB();
 $container->set(
     DB::class,
     function () use ($db) {
@@ -54,4 +53,7 @@ $container->set(
 ); */
 
 // Invoke the site
-(new App(new Router($container)))->run();
+$container = new Container();
+$router = new Router($container);
+$app = new App($router);
+$app->run();
