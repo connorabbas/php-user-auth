@@ -1,7 +1,7 @@
 # PHP User Auth
-A simple user authentication system built with [PHP Basic Framework](https://github.com/connorabbas/basic-framework)
+A simple user authentication system built with [PHP Basic Framework](https://github.com/connorabbas/basic-framework) as an example project.
 
-Not meant for production use.
+Not intended for production use.
 
 ## About
 - User registration 
@@ -9,4 +9,15 @@ Not meant for production use.
 - Basic CRUD operations
 - Page access restrictions for users or guests
 
-The main purpose of this application was to do a trial run of sorts on my PHP Basic Framework, to work out the kinks and nuances.
+## Table Schema
+```SQL
+CREATE TABLE `users` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `role` int(1) NOT NULL DEFAULT 0,
+    `name` varchar(128) NOT NULL,
+    `email` varchar(128) NOT NULL,
+    `username` varchar(128) NOT NULL,
+    `password` varchar(128) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
+```
