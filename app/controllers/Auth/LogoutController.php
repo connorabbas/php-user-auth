@@ -15,7 +15,7 @@ class LogoutController
 
     public function doLogout()
     {
-        handleCsrf();
+        handle_csrf();
         
         $this->authService->logout();
 

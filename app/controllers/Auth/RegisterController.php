@@ -25,7 +25,7 @@ class RegisterController
 
     public function store()
     {
-        handleCsrf();
+        handle_csrf();
 
         $name = $_POST['name'];
         $username = $_POST['username'];

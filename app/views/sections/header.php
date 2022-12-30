@@ -8,7 +8,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto flex-nowrap">
-                <?php if (!loggedIn()): ?>
+                <?php if (!logged_in()): ?>
                     <li class="nav-item me-4">
                         <a class="nav-link" href="/register">Register</a>
                     </li>

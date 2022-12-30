@@ -30,7 +30,7 @@ class UserController
 
     public function update()
     {
-        handleCsrf();
+        handle_csrf();
 
         $this->userService->updateName($_SESSION['user_id'], $_POST['name']);
         
@@ -39,7 +39,7 @@ class UserController
 
     public function destroy()
     {
-        handleCsrf();
+        handle_csrf();
 
         if (!$this->userService->deleteUser($_SESSION['user_id'])) {
             back();

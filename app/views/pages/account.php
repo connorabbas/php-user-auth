@@ -1,8 +1,11 @@
 <?php
-$this->layout('template::main', [
-    'pageTitle' => 'Account Info',
-    'pageDesc' => "User Auth",
-]);
+$this->layout(
+    'template::main',
+    [
+        'pageTitle' => 'Account Info',
+        'pageDesc' => "User Auth",
+    ]
+);
 ?>
 <div class="mt-5 mb-5">
     <div id="logInOuter">
@@ -11,15 +14,15 @@ $this->layout('template::main', [
                 <div class="col">
                     <div style="width: 22rem; margin: 0 auto;">
                         <!-- Flash messages -->
-                        <?= successFlashMessage() ?>
-                        <?= errorFlashMessage() ?>
+                        <?= success_flash_message() ?>
+                        <?= error_flash_message() ?>
                         <!-- Form -->
                         <div class="card shadow-sm mb-4" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Account Info</h3>
                                 <form action="/account" method="POST">
                                     <?= csrf() ?>
-                                    <?= methodSpoof('PATCH') ?>
+                                    <?= method_spoof('PATCH') ?>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Name</label>
                                         <input type="text" class="form-control form-control-sm" name="name" value="<?= $user->name ?>" required>
@@ -56,7 +59,7 @@ $this->layout('template::main', [
                 </div>
                 <div class="modal-footer">
                     <?= csrf() ?>
-                    <?= methodSpoof('DELETE') ?>
+                    <?= method_spoof('DELETE') ?>
                     <input type="hidden" name="delete" value="true">
                     <button type="submit" class="btn btn-danger">Yes, Delete</button>
                 </div>
