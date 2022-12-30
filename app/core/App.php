@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Core\DB;
 use App\Core\Router;
 use App\Core\Container;
 use RecursiveIteratorIterator;
@@ -38,15 +39,12 @@ class App
      */
     public function setClassBindings(): self
     {
-        // if we would want to manually set the DB in the container
-        // making sure there is only one DB connection per request
-        /* $db = new DB();
-        $this->container->set(
+        $this->container->setOnce(
             DB::class,
-            function () use ($db) {
-                return $db;
+            function () {
+                return new DB();
             }
-        ); */
+        );
 
         return $this;
     }

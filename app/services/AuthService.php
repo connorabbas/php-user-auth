@@ -42,7 +42,7 @@ class AuthService
     public function userAccessOnly()
     {
         $validUser = false;
-        if (loggedIn()) {
+        if (logged_in()) {
             $validUser = $this->userData->getById($_SESSION['user_id']);
         }
         if (!$validUser) {
@@ -54,7 +54,7 @@ class AuthService
 
     public function guestAccessOnly()
     {
-        if (loggedIn() && $this->userData->getById($_SESSION['user_id']) !== false) {
+        if (logged_in() && $this->userData->getById($_SESSION['user_id']) !== false) {
             echo View::render('pages.403');
             exit;
         }

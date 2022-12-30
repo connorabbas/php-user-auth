@@ -22,7 +22,7 @@ class LoginController
 
     public function doLogin()
     {
-        handleCsrf();
+        handle_csrf();
         
         if (!$this->authService->attemptLogin($_POST['username'], $_POST['password'])) {
             back();

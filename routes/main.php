@@ -5,7 +5,9 @@ use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\LogoutController;
 use App\Controllers\Auth\RegisterController;
 
-// Valid Routes for Site
+/**
+ * Valid Routes for Site
+ */
 
 $this->router->view('/', 'pages.welcome');
 

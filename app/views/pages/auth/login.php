@@ -1,8 +1,11 @@
 <?php
-$this->layout('template::main', [
-    'pageTitle' => 'Login',
-    'pageDesc' => "User Auth",
-]);
+$this->layout(
+    'template::main',
+    [
+        'pageTitle' => 'Login',
+        'pageDesc' => "User Auth",
+    ]
+);
 ?>
 <div class="mt-5 mb-5">
     <div id="logInOuter">
@@ -10,7 +13,7 @@ $this->layout('template::main', [
             <div class="row">
                 <div class="col">
                     <div style="width: 22rem; margin: 0 auto;">
-                        <?= errorFlashMessage() ?>
+                        <?= error_flash_message() ?>
                         <div class="card shadow-sm" style="width: 22rem; margin: 0 auto;">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">Login</h3>
