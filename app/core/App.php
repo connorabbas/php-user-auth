@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Core\DB;
 use App\Core\Router;
+use App\Models\User;
 use App\Core\Container;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -43,6 +44,14 @@ class App
             DB::class,
             function ($container) {
                 return new DB();
+            }
+        );
+
+        // multiple services using the model, set once
+        $this->container->setOnce(
+            User::class,
+            function ($container) {
+                return new User($container->get(DB::class));
             }
         );
 
