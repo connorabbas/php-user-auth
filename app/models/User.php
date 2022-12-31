@@ -10,17 +10,10 @@ class User extends Model
 {
     private $table = 'users';
 
-    // example to show how to use a different db connection on a model
     /* public function __construct()
     {
-        $this->db = new DB(config('database.alt'));
-    } */
-
-    // example to Use an extended DB class with a different connection
-    // set in the container to avoid multiple established connections in one request
-    /* public function __construct(DBAlt $db)
-    {
-        $this->db = $db;
+        $this->db = container(DB::class);
+        dump('user model');
     } */
 
     public function getAll()
