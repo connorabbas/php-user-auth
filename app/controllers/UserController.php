@@ -6,20 +6,22 @@ use Exception;
 use App\Core\View;
 use App\Services\AuthService;
 use App\Services\UserService;
-use App\Validation\Exceptions\UserDataException;
+use App\Validation\ValidateUser;
 
 class UserController
 {
     public $authService;
     public $userService;
+    public $userValidation;
     private $currentUser;
 
-    public function __construct(AuthService $authService, UserService $userService)
+    public function __construct(AuthService $authService, UserService $userService, ValidateUser $userValidation)
     {
         $this->currentUser = current_user();
         $this->authService = $authService;
         $this->authService->userAccessOnly($this->currentUser);
         $this->userService = $userService;
+        $this->userValidation = $userValidation;
     }
 
     public function index()
@@ -35,12 +37,15 @@ class UserController
         handle_csrf();
 
         $newName = $_POST['name'];
+        $validationErrors = $this->userValidation->validateUpdateUserName($this->currentUser, $newName);
+        if ($validationErrors) {
+            $_SESSION['flash_error_msg'] = $validationErrors;
+            return back();
+        }
 
         try {
-            $this->userService->updateName($this->currentUser, $newName);
+            $this->userService->updateUserProperties($this->currentUser->id, ['name' => $newName]);
             $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
-        } catch (UserDataException $e) {
-            $_SESSION['flash_error_msg'] = $e->getMessage();
         } catch (Exception $e) {
             error_log($e->getMessage());
             $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';

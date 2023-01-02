@@ -52,4 +52,14 @@ class ValidateUser extends Validate
         
         return $errors;
     }
+
+    public function validateUpdateUserName($user, $newName): array
+    {
+        $errors = [];
+        if ($user->name == $newName) {
+            $errors[] = 'Name was NOT updated. Please enter a different name.';
+        }
+        
+        return $errors;
+    }
 }

@@ -148,12 +148,15 @@ if (!function_exists('error_flash_message')) {
             ob_start();
             ?>
             <div class="alert alert-danger mb-3" role="alert">
-                <?php if(is_array($_SESSION['flash_error_msg'])): ?>
+                <?php if(is_array($_SESSION['flash_error_msg']) && count($_SESSION['flash_error_msg']) > 1): ?>
                     <ul class="mb-0">
                         <?php foreach ($_SESSION['flash_error_msg'] as $message): ?>
                             <li><?= $message ?></li>
                         <?php endforeach ?>
                     </ul>
+                <?php endif ?>
+                <?php if(is_array($_SESSION['flash_error_msg']) && count($_SESSION['flash_error_msg']) == 1): ?>
+                    <?= $_SESSION['flash_error_msg'][0] ?>
                 <?php else: ?>
                     <?= $_SESSION['flash_error_msg'] ?>
                 <?php endif ?>

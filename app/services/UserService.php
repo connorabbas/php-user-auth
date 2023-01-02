@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use Exception;
 use App\Models\User;
-use App\Validation\Exceptions\UserDataException;
 
 class UserService
 {
@@ -33,18 +31,6 @@ class UserService
     public function updateUserProperties($userId, array $properties)
     {
         return $this->userData->update($userId, $properties);
-    }
-
-    public function updateName($user, $newName)
-    {
-        $props = [
-            'name' => $newName,
-        ];
-        if ($user->name == $newName) {
-            throw new UserDataException('Name was NOT updated. Please enter a different name.');
-        }
-
-        return $this->userData->update($user->id, $props);
     }
 
     public function deleteUser($userId)
