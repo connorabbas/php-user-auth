@@ -34,16 +34,15 @@ class AuthService
 
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_username'] = $user->username;
-        $_SESSION['user_name'] = $user->name;
 
         return true;
     }
 
-    public function userAccessOnly()
+    public function userAccessOnly($user)
     {
         $validUser = false;
         if (logged_in()) {
-            $validUser = $this->userData->getById($_SESSION['user_id']);
+            $validUser = $user;
         }
         if (!$validUser) {
             $this->logout();

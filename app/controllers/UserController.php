@@ -8,23 +8,23 @@ use App\Services\UserService;
 
 class UserController
 {
-    private $authService;
-    private $userService;
+    public $authService;
+    public $userService;
+    private $currentUser;
 
     public function __construct(AuthService $authService, UserService $userService)
     {
+        $this->currentUser = current_user();
         $this->authService = $authService;
+        $this->authService->userAccessOnly($this->currentUser);
         $this->userService = $userService;
-        $this->authService->userAccessOnly();
     }
 
     public function index()
     {
-        $user = $this->userService->getById($_SESSION['user_id']);
-        
         return View::render(
             'pages.account',
-            ['user' => $user]
+            ['user' => $this->currentUser]
         );
     }
 

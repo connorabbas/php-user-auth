@@ -20,24 +20,22 @@ class UserService
         return $this->userData->getById($id);
     }
 
-    public function createUser($name, $email, $username, $pwd, $pwdR): bool
+    public function createUser($name, $email, $username, $pwd)
     {
-        try {
-            (New ValidateUser($this->userData))->validateRegisterUser($name, $email, $username, $pwd, $pwdR);
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = array_merge(['Not Registered.'], explode(' - ', $e->getMessage()));
-            return false;
-        }
-
-        try {
-            $this->userData->create($name, $email, $username, $pwd);
-            return true;
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
-            return false;
-        }
+        return $this->userData->create($name, $email, $username, $pwd);
     }
 
+    public function deleteUserNew($userId)
+    {
+        return $this->userData->delete($userId);
+    }
+
+    public function updateUserProperties($userId, array $properties)
+    {
+        return $this->userData->update($userId, $properties);
+    }
+
+    // needs rework
     public function updateName($userId, $newName)
     {
         $props = [
@@ -53,7 +51,6 @@ class UserService
                 $_SESSION['flash_error_msg'] = 'Something went wrong, name was not updated.';
                 return false;
             }
-            $_SESSION['user_name'] = $newName;
             $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
             return true;
         } catch (Exception $e) {

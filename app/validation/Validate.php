@@ -15,6 +15,9 @@ class Validate
         return false;
     }
 
+    /**
+     * Alphanumeric username
+     */
     public function invalidUsername($username): bool
     {
         return (!preg_match('/^[a-zA-Z0-9]*$/', $username)) ? true : false;
@@ -25,8 +28,20 @@ class Validate
         return (!filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;
     }
 
-    public function pwdMatch($pwd, $pwdR): bool
+    /**
+     * Minimum 8 characters in length
+     * At least one uppercase English letter
+     * At least one lowercase English letter
+     * At least one digit
+     * At least one special character
+     */
+    public function invalidPassword($password): bool
     {
-        return ($pwd !== $pwdR) ? true : false;
+        return (!preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/", $password)) ? true : false;
+    }
+
+    public function match($input, $inputR): bool
+    {
+        return ($input !== $inputR) ? true : false;
     }
 }

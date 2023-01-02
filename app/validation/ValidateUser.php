@@ -2,7 +2,6 @@
 
 namespace App\Validation;
 
-use Exception;
 use App\Models\User;
 
 class ValidateUser extends Validate
@@ -14,27 +13,31 @@ class ValidateUser extends Validate
         $this->user = $user;
     }
     
-    public function validateRegisterUser($name, $email, $username, $pwd, $pwdR): void
+    public function validateRegisterUser($name, $email, $username, $pwd, $pwdR): array
     {
         $errors = [];
         if ($this->checkEmptyInputs([$name, $email, $username, $pwd, $pwdR]) !== false) {
             $errors[] = 'Please fill out all required fields.';
         }
         if ($this->invalidUsername($username) !== false) {
-            $errors[] = 'Invalid username.';
+            $errors[] = 'Invalid username. No special characters allowed.';
         }
-        if ($this->pwdMatch($pwd, $pwdR) !== false) {
+        if ($this->invalidPassword($pwd) !== false) {
+            $errors[] = 'Invalid password. Must contain the following: Minimum 8 characters in length, ' .
+            'At least one uppercase English letter, At least one lowercase English letter, ' .
+            'At least one digit, At least one special character.';
+        }
+        if ($this->match($pwd, $pwdR) !== false) {
             $errors[] = 'Passwords must match.';
         }
         if ($this->user->getByUsername($username, $email) !== false) {
             $errors[] = 'This username or email already exists.';
         }
-        if (count($errors)) {
-            throw new Exception(implode(' - ', $errors));
-        }
+        
+        return $errors;
     }
 
-    public function validateLoginUser($username, $pwd, $user): void
+    public function validateLoginUser($username, $pwd, $user): array
     {
         $errors = [];
         if ($this->checkEmptyInputs([$username, $pwd]) !== false) {
@@ -46,8 +49,7 @@ class ValidateUser extends Validate
         if ($user !== false && !password_verify($pwd, $user->password)) {
             $errors[] = 'Incorrect password.';
         }
-        if (count($errors)) {
-            throw new Exception(implode(' - ', $errors));
-        }
+        
+        return $errors;
     }
 }
