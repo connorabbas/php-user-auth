@@ -6,22 +6,20 @@ use Exception;
 use App\Core\View;
 use App\Services\AuthService;
 use App\Services\UserService;
-use App\Validation\ValidateUser;
+use App\Validation\ValidateUpdateUserName;
 
 class UserController
 {
     public $authService;
     public $userService;
-    public $userValidation;
     private $currentUser;
 
-    public function __construct(AuthService $authService, UserService $userService, ValidateUser $userValidation)
+    public function __construct(AuthService $authService, UserService $userService)
     {
         $this->currentUser = current_user();
         $this->authService = $authService;
         $this->authService->userAccessOnly($this->currentUser);
         $this->userService = $userService;
-        $this->userValidation = $userValidation;
     }
 
     public function index()
@@ -37,7 +35,7 @@ class UserController
         handle_csrf();
 
         $newName = $_POST['name'];
-        $validationErrors = $this->userValidation->validateUpdateUserName($this->currentUser, $newName);
+        $validationErrors = (new ValidateUpdateUserName($this->currentUser, $newName))->handle();
         if ($validationErrors) {
             $_SESSION['flash_error_msg'] = $validationErrors;
             return back();

@@ -2,8 +2,16 @@
 
 namespace App\Validation;
 
-class Validate
+abstract class Validate
 {
+    abstract protected function handle(): array;
+
+    /**
+     * Ensure input entries are not empty
+     *
+     * @param array $values
+     * @return boolean
+     */
     public function checkEmptyInputs(array $values): bool
     {
         foreach ($values as $value) {
