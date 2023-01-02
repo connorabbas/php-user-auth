@@ -6,20 +6,19 @@ use Exception;
 use App\Core\View;
 use App\Services\AuthService;
 use App\Services\UserService;
-use App\Validation\ValidateUser;
+use App\Interfaces\UserDataInterface;
+use App\Validation\ValidateUserRegistration;
 
 class RegisterController
 {
     public $authService;
     public $userService;
-    public $userValidation;
 
-    public function __construct(AuthService $authService, UserService $userService, ValidateUser $userValidation)
+    public function __construct(AuthService $authService, UserService $userService)
     {
         $this->authService = $authService;
         $this->authService->guestAccessOnly();
         $this->userService = $userService;
-        $this->userValidation = $userValidation;
     }
 
     public function index()
@@ -37,7 +36,14 @@ class RegisterController
         $pwd = $_POST['password'];
         $pwdR = $_POST['passwordR'];
 
-        $validationErrors = $this->userValidation->validateRegisterUser($name, $email, $username, $pwd, $pwdR);
+        $validationErrors = (new ValidateUserRegistration(
+            container(UserDataInterface::class),
+            $name,
+            $email,
+            $username,
+            $pwd,
+            $pwdR
+        ))->handle();
         if ($validationErrors) {
             $_SESSION['flash_error_msg'] = $validationErrors;
             return back();
