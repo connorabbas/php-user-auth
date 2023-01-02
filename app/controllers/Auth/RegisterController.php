@@ -40,7 +40,7 @@ class RegisterController
         $validationErrors = $this->userValidation->validateRegisterUser($name, $email, $username, $pwd, $pwdR);
         if ($validationErrors) {
             $_SESSION['flash_error_msg'] = $validationErrors;
-            back();
+            return back();
         }
 
         try {
@@ -49,9 +49,9 @@ class RegisterController
         } catch (Exception $e) {
             error_log($e->getMessage());
             $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
-            back();
+            return back();
         }
 
-        redirect('/');
+        return redirect('/');
     }
 }

@@ -10,25 +10,24 @@ use App\Validation\ValidateUser;
 class AuthService
 {
     public $userData;
+    public $userValidation;
 
-    public function __construct(User $user)
+    public function __construct(User $user, ValidateUser $userValidation)
     {
         $this->userData = $user;
+        $this->userValidation = $userValidation;
     }
 
     public function attemptLogin($username, $pwd): bool
     {
-        try {
-            $user = $this->userData->getByUsername($username, $username);
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
-            return false;
-        }
+        $user = $this->userData->getByUsername($username, $username);
 
-        try {
-            (New ValidateUser($this->userData))->validateLoginUser($username, $pwd, $user);
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = array_merge(['Invalid Login.'], explode(' - ', $e->getMessage()));
+        // normally we would handle the validation and throwing errors in the controller
+        // making exception here to make the login experience more practical
+        $validationErrors = $this->userValidation->validateLoginUser($username, $pwd, $user);
+        if ($validationErrors) {
+            array_unshift($validationErrors, 'Invalid Login.');
+            $_SESSION['flash_error_msg'] = $validationErrors;
             return false;
         }
 

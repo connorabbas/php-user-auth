@@ -25,9 +25,9 @@ class LoginController
         handle_csrf();
         
         if (!$this->authService->attemptLogin($_POST['username'], $_POST['password'])) {
-            back();
+            return back();
         }
 
-        redirect('/');
+        return redirect('/');
     }
 }

@@ -94,7 +94,7 @@ if (!function_exists('handle_csrf')) {
     {
         if (!csrf_valid()) {
             $_SESSION['flash_error_msg'] = 'Invalid request. Possible cross site request forgery detected.';
-            back();
+            return back();
         }
     }
 }
@@ -149,7 +149,7 @@ if (!function_exists('error_flash_message')) {
             ?>
             <div class="alert alert-danger mb-3" role="alert">
                 <?php if(is_array($_SESSION['flash_error_msg'])): ?>
-                    <ul>
+                    <ul class="mb-0">
                         <?php foreach ($_SESSION['flash_error_msg'] as $message): ?>
                             <li><?= $message ?></li>
                         <?php endforeach ?>

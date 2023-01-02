@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
+use Exception;
 use App\Core\View;
 use App\Services\AuthService;
 use App\Services\UserService;
+use App\Validation\Exceptions\UserDataException;
 
 class UserController
 {
@@ -32,22 +34,36 @@ class UserController
     {
         handle_csrf();
 
-        $this->userService->updateName($_SESSION['user_id'], $_POST['name']);
+        $newName = $_POST['name'];
+
+        try {
+            $this->userService->updateName($this->currentUser, $newName);
+            $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
+        } catch (UserDataException $e) {
+            $_SESSION['flash_error_msg'] = $e->getMessage();
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
+        }
         
-        back();
+        return back();
     }
 
     public function destroy()
     {
         handle_csrf();
 
-        if (!$this->userService->deleteUser($_SESSION['user_id'])) {
-            back();
+        try {
+            $this->userService->deleteUser($_SESSION['user_id']);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
+            return back();
         }
 
         $this->authService->logout();
         $_SESSION['flash_success_msg'] = 'Your account was successfully deleted.';
         
-        redirect('/');
+        return redirect('/');
     }
 }

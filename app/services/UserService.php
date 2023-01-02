@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Exception;
 use App\Models\User;
-use App\Validation\ValidateUser;
+use App\Validation\Exceptions\UserDataException;
 
 class UserService
 {
@@ -35,41 +35,20 @@ class UserService
         return $this->userData->update($userId, $properties);
     }
 
-    // needs rework
-    public function updateName($userId, $newName)
+    public function updateName($user, $newName)
     {
         $props = [
             'name' => $newName,
         ];
-
-        try {
-            if ($this->userData->getById($userId)->name == $newName) {
-                $_SESSION['flash_error_msg'] = 'Name was NOT updated. Please enter a different name.';
-                return false;
-            }
-            if (!$this->userData->update($userId, $props)) {
-                $_SESSION['flash_error_msg'] = 'Something went wrong, name was not updated.';
-                return false;
-            }
-            $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
-            return true;
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
-            return false;
+        if ($user->name == $newName) {
+            throw new UserDataException('Name was NOT updated. Please enter a different name.');
         }
+
+        return $this->userData->update($user->id, $props);
     }
 
     public function deleteUser($userId)
     {
-        try {
-            if (!$this->userData->delete($userId)) {
-                $_SESSION['flash_error_msg'] = 'Something went wrong, account was NOT deleted.';
-                return false;
-            }
-            return true;
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
-            return false;
-        }
+        return $this->userData->delete($userId);
     }
 }
