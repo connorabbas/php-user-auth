@@ -186,6 +186,6 @@ if (!function_exists('current_user')) {
         if(!isset($_SESSION['user_id'])){
             return null;
         }
-        return container('App\Models\User')->getById($_SESSION['user_id']);
+        return container('App\Interfaces\UserDataInterface')->getById($_SESSION['user_id']);
     }
 }
