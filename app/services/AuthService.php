@@ -2,48 +2,45 @@
 
 namespace App\Services;
 
-use Exception;
 use App\Core\View;
-use App\Models\User;
 use App\Validation\ValidateUser;
+use App\Interfaces\UserDataInterface;
 
 class AuthService
 {
     public $userData;
+    public $userValidation;
 
-    public function __construct(User $user)
+    public function __construct(UserDataInterface $userData, ValidateUser $userValidation)
     {
-        $this->userData = $user;
+        $this->userData = $userData;
+        $this->userValidation = $userValidation;
     }
 
     public function attemptLogin($username, $pwd): bool
     {
-        try {
-            $user = $this->userData->getByUsername($username, $username);
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff. ' . $e->getMessage();
-            return false;
-        }
+        $user = $this->userData->getByUsername($username, $username);
 
-        try {
-            (New ValidateUser($this->userData))->validateLoginUser($username, $pwd, $user);
-        } catch (Exception $e) {
-            $_SESSION['flash_error_msg'] = array_merge(['Invalid Login.'], explode(' - ', $e->getMessage()));
+        // normally we would handle the validation and throwing errors in the controller
+        // making exception here to make the login experience more practical
+        $validationErrors = $this->userValidation->validateLoginUser($username, $pwd, $user);
+        if ($validationErrors) {
+            array_unshift($validationErrors, 'Invalid Login.');
+            $_SESSION['flash_error_msg'] = $validationErrors;
             return false;
         }
 
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_username'] = $user->username;
-        $_SESSION['user_name'] = $user->name;
 
         return true;
     }
 
-    public function userAccessOnly()
+    public function userAccessOnly($user)
     {
         $validUser = false;
         if (logged_in()) {
-            $validUser = $this->userData->getById($_SESSION['user_id']);
+            $validUser = $user;
         }
         if (!$validUser) {
             $this->logout();

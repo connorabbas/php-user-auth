@@ -2,19 +2,12 @@
 
 namespace App\Models;
 
-use App\Core\DB;
-use App\Core\DBAlt;
 use App\Core\Model;
+use App\Interfaces\UserDataInterface;
 
-class User extends Model
+class User extends Model implements UserDataInterface
 {
     private $table = 'users';
-
-    /* public function __construct()
-    {
-        $this->db = container(DB::class);
-        dump('user model');
-    } */
 
     public function getAll()
     {
@@ -63,7 +56,7 @@ class User extends Model
         return $this->db->execute();
     }
 
-    public function update(int $userId, array $properties)
+    public function update($userId, array $properties)
     {
         $setString = '';
         foreach ($properties as $property => $value) {
@@ -88,7 +81,7 @@ class User extends Model
         return $this->db->execute();
     }
 
-    public function delete(int $userId)
+    public function delete($userId)
     {
         $sql = "DELETE FROM $this->table
             WHERE id = :id";

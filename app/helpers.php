@@ -94,7 +94,7 @@ if (!function_exists('handle_csrf')) {
     {
         if (!csrf_valid()) {
             $_SESSION['flash_error_msg'] = 'Invalid request. Possible cross site request forgery detected.';
-            back();
+            return back();
         }
     }
 }
@@ -148,10 +148,15 @@ if (!function_exists('error_flash_message')) {
             ob_start();
             ?>
             <div class="alert alert-danger mb-3" role="alert">
-                <?php if(is_array($_SESSION['flash_error_msg'])): ?>
-                    <?php foreach ($_SESSION['flash_error_msg'] as $message): ?>
-                        <?= $message ?><br>
-                    <?php endforeach ?>
+                <?php if(is_array($_SESSION['flash_error_msg']) && count($_SESSION['flash_error_msg']) > 1): ?>
+                    <ul class="mb-0">
+                        <?php foreach ($_SESSION['flash_error_msg'] as $message): ?>
+                            <li><?= $message ?></li>
+                        <?php endforeach ?>
+                    </ul>
+                <?php endif ?>
+                <?php if(is_array($_SESSION['flash_error_msg']) && count($_SESSION['flash_error_msg']) == 1): ?>
+                    <?= $_SESSION['flash_error_msg'][0] ?>
                 <?php else: ?>
                     <?= $_SESSION['flash_error_msg'] ?>
                 <?php endif ?>
@@ -172,5 +177,15 @@ if (!function_exists('logged_in')) {
             return true;
         }
         return false;
+    }
+}
+
+if (!function_exists('current_user')) {
+    function current_user()
+    {
+        if(!isset($_SESSION['user_id'])){
+            return null;
+        }
+        return container('App\Models\User')->getById($_SESSION['user_id']);
     }
 }

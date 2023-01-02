@@ -17,7 +17,7 @@
                     </li>
                 <?php else: ?>
                     <span class="navbar-text text-light me-4">
-                        Welcome, <?= $_SESSION['user_name'] ?>
+                        Welcome, <?= $currentUser->name ?>
                     </span>
                     <li class="nav-item me-4">
                         <a class="nav-link" href="/account">Account</a>

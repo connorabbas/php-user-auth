@@ -2,29 +2,33 @@
 
 namespace App\Controllers;
 
+use Exception;
 use App\Core\View;
 use App\Services\AuthService;
 use App\Services\UserService;
+use App\Validation\ValidateUser;
 
 class UserController
 {
-    private $authService;
-    private $userService;
+    public $authService;
+    public $userService;
+    public $userValidation;
+    private $currentUser;
 
-    public function __construct(AuthService $authService, UserService $userService)
+    public function __construct(AuthService $authService, UserService $userService, ValidateUser $userValidation)
     {
+        $this->currentUser = current_user();
         $this->authService = $authService;
+        $this->authService->userAccessOnly($this->currentUser);
         $this->userService = $userService;
-        $this->authService->userAccessOnly();
+        $this->userValidation = $userValidation;
     }
 
     public function index()
     {
-        $user = $this->userService->getById($_SESSION['user_id']);
-        
         return View::render(
             'pages.account',
-            ['user' => $user]
+            ['user' => $this->currentUser]
         );
     }
 
@@ -32,22 +36,39 @@ class UserController
     {
         handle_csrf();
 
-        $this->userService->updateName($_SESSION['user_id'], $_POST['name']);
+        $newName = $_POST['name'];
+        $validationErrors = $this->userValidation->validateUpdateUserName($this->currentUser, $newName);
+        if ($validationErrors) {
+            $_SESSION['flash_error_msg'] = $validationErrors;
+            return back();
+        }
+
+        try {
+            $this->userService->updateUserProperties($this->currentUser->id, ['name' => $newName]);
+            $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
+        }
         
-        back();
+        return back();
     }
 
     public function destroy()
     {
         handle_csrf();
 
-        if (!$this->userService->deleteUser($_SESSION['user_id'])) {
-            back();
+        try {
+            $this->userService->deleteUser($_SESSION['user_id']);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
+            return back();
         }
 
         $this->authService->logout();
         $_SESSION['flash_success_msg'] = 'Your account was successfully deleted.';
         
-        redirect('/');
+        return redirect('/');
     }
 }

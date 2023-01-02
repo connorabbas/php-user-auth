@@ -19,6 +19,6 @@ class LogoutController
         
         $this->authService->logout();
 
-        redirect('/');
+        return redirect('/');
     }
 }

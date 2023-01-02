@@ -4,9 +4,11 @@ namespace App\Core;
 
 use App\Core\DB;
 use App\Core\Router;
+use App\Models\User;
 use App\Core\Container;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use App\Interfaces\UserDataInterface;
 
 class App
 {
@@ -43,6 +45,12 @@ class App
             DB::class,
             function ($container) {
                 return new DB();
+            }
+        );
+        $this->container->setOnce(
+            UserDataInterface::class,
+            function ($container) {
+                return new User($container->get(DB::class));
             }
         );
 
