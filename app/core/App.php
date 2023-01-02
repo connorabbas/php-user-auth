@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Core\Container;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use App\Interfaces\UserDataInterface;
 
 class App
 {
@@ -46,10 +47,8 @@ class App
                 return new DB();
             }
         );
-
-        // multiple services using the model, set once
         $this->container->setOnce(
-            User::class,
+            UserDataInterface::class,
             function ($container) {
                 return new User($container->get(DB::class));
             }

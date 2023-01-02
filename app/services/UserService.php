@@ -2,15 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Interfaces\UserDataInterface;
 
+/**
+ * Service layer to make the User data an interchangeable class
+ */
 class UserService
 {
     public $userData;
 
-    public function __construct(User $user)
+    public function __construct(UserDataInterface $userData)
     {
-        $this->userData = $user;
+        $this->userData = $userData;
     }
 
     public function getById($id)

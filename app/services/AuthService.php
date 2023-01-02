@@ -2,19 +2,18 @@
 
 namespace App\Services;
 
-use Exception;
 use App\Core\View;
-use App\Models\User;
 use App\Validation\ValidateUser;
+use App\Interfaces\UserDataInterface;
 
 class AuthService
 {
     public $userData;
     public $userValidation;
 
-    public function __construct(User $user, ValidateUser $userValidation)
+    public function __construct(UserDataInterface $userData, ValidateUser $userValidation)
     {
-        $this->userData = $user;
+        $this->userData = $userData;
         $this->userValidation = $userValidation;
     }
 

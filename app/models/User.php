@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Core\DB;
-use App\Core\DBAlt;
 use App\Core\Model;
+use App\Interfaces\UserDataInterface;
 
-class User extends Model
+class User extends Model implements UserDataInterface
 {
     private $table = 'users';
 
