@@ -4,6 +4,9 @@
  * Helper functions available anywhere within the application (in the current request)
  */
 
+/**
+ * Access classes in the container
+ */
 if (!function_exists('container')) {
     function container(string $classReference)
     {
@@ -13,7 +16,7 @@ if (!function_exists('container')) {
 }
 
 /**
- * access config values by using "." as the nesting delimiter
+ * Access config values by using "." as the nesting delimiter
  */
 if (!function_exists('config')) {
     function config(string $configPath)
