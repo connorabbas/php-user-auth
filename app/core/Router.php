@@ -8,17 +8,25 @@ use App\Core\Container;
 class Router
 {
     private $container;
+    private $requestHttpMethod;
+    private $requestUri;
     private $routes = [];
     private $controllerBatch = null;
     private $prefixUriBatch = null;
-    private const NEEDS_SPOOF = ['PUT', 'PATCH', 'DELETE'];
 
-    public function __construct(Container $container)
+    public function __construct(Container $container, string $requestHttpMethod, string $requestUri)
     {
         $this->container = $container;
+        $this->requestHttpMethod = $requestHttpMethod;
+        $this->requestUri = $requestUri;
     }
 
-    private function set(string $httpVerb, string $route, $callback): self
+    public function getRoutes(): array
+    {
+        return $this->routes;
+    }
+
+    public function register(string $httpVerb, string $route, $callback): self
     {
         if (!is_null($this->controllerBatch)) {
             $callback = [$this->controllerBatch, $callback];
@@ -33,21 +41,15 @@ class Router
 
     public function run()
     {
-        $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-        $uriParts = explode('/', $uri);
+        $uriParts = explode('/', $this->requestUri);
 
         foreach ($this->routes as $httpVerb => $routes) {
             foreach ($routes as $route => $callback) {
                 $routeParts = explode('/', $route);
-                // account for method spoofing
-                if (in_array($httpVerb, self::NEEDS_SPOOF)) {
-                    $this->handleMethodSpoof($httpVerb);
-                }
                 // if identical matched uri to route
                 if (
-                    $route === $uri &&
-                    array_key_exists($uri, $routes) &&
-                    $_SERVER['REQUEST_METHOD'] == $httpVerb
+                    $route === $this->requestUri &&
+                    $this->requestHttpMethod == $httpVerb
                 ) {
                     return $this->resolveRoute($callback);
                 }
@@ -84,7 +86,7 @@ class Router
                             (count($wildCardIndexes) > 0) &&
                             ($noMatchIndexes === $wildCardIndexes) &&
                             ($matchedIndexes === $nonWildCardIndexes)  &&
-                            $_SERVER['REQUEST_METHOD'] == $httpVerb
+                            $this->requestHttpMethod == $httpVerb
                         ) {
                             foreach ($wildCards as $wildCard => $value) {
                                 if (!isset($_REQUEST[$wildCard])) {
@@ -133,47 +135,36 @@ class Router
         return $returned;
     }
 
-    public function routeNotFound()
+    private function routeNotFound()
     {
         http_response_code(404);
         echo View::render('pages.404');
         return;
     }
 
-    public function handleMethodSpoof(string $method)
-    {
-        if (
-            $_SERVER['REQUEST_METHOD'] === 'POST' &&
-            isset($_REQUEST['_method']) &&
-            $_REQUEST['_method'] === $method
-        ) {
-            $_SERVER['REQUEST_METHOD'] = $method;
-        }
-    }
-
     public function get($route, $callback)
     {
-        return $this->set('GET', $route, $callback);
+        return $this->register('GET', $route, $callback);
     }
 
     public function post($route, $callback)
     {
-        return $this->set('POST', $route, $callback);
+        return $this->register('POST', $route, $callback);
     }
 
     public function patch($route, $callback)
     {
-        return $this->set('PATCH', $route, $callback);
+        return $this->register('PATCH', $route, $callback);
     }
 
     public function put($route, $callback)
     {
-        return $this->set('PUT', $route, $callback);
+        return $this->register('PUT', $route, $callback);
     }
 
     public function delete($route, $callback)
     {
-        return $this->set('DELETE', $route, $callback);
+        return $this->register('DELETE', $route, $callback);
     }
 
     public function view($route, $view)
