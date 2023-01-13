@@ -26,11 +26,6 @@ class UserService
         return $this->userData->create($name, $email, $username, $pwd);
     }
 
-    public function deleteUserNew($userId)
-    {
-        return $this->userData->delete($userId);
-    }
-
     public function updateUserProperties($userId, array $properties)
     {
         return $this->userData->update($userId, $properties);
