@@ -33,7 +33,7 @@ class Config
             ],
             'plates_templates' => [
                 'folders' => [
-                    'template' => 'templates/',
+                    'template' => '/templates',
                 ],
             ],
         ];
