@@ -19,5 +19,5 @@ CREATE TABLE `users` (
     `username` varchar(128) NOT NULL,
     `password` varchar(128) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 ```
