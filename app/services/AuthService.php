@@ -35,14 +35,11 @@ class AuthService
         return true;
     }
 
-    public function userAccessOnly($user)
+    public function userAccessOnly()
     {
-        $validUser = false;
-        if (logged_in()) {
-            $validUser = $user;
-        }
-        if (!$validUser) {
+        if (!logged_in()) {
             $this->logout();
+            http_response_code(403);
             echo View::render('pages.403');
             exit;
         }
@@ -51,6 +48,7 @@ class AuthService
     public function guestAccessOnly()
     {
         if (logged_in() && $this->userData->getById($_SESSION['user_id']) !== false) {
+            http_response_code(403);
             echo View::render('pages.403');
             exit;
         }

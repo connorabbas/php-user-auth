@@ -5,20 +5,19 @@ namespace App\Controllers\Auth;
 use Exception;
 use App\Core\View;
 use App\Services\AuthService;
-use App\Services\UserService;
 use App\Interfaces\UserDataInterface;
 use App\Validation\ValidateUserRegistration;
 
 class RegisterController
 {
     public $authService;
-    public $userService;
+    public $userData;
 
-    public function __construct(AuthService $authService, UserService $userService)
+    public function __construct(AuthService $authService, UserDataInterface $userData)
     {
         $this->authService = $authService;
         $this->authService->guestAccessOnly();
-        $this->userService = $userService;
+        $this->userData = $userData;
     }
 
     public function index()
@@ -37,7 +36,7 @@ class RegisterController
         $pwdR = $_POST['passwordR'];
 
         $validationErrors = (new ValidateUserRegistration(
-            container(UserDataInterface::class),
+            $this->userData,
             $name,
             $email,
             $username,
@@ -50,7 +49,7 @@ class RegisterController
         }
 
         try {
-            $this->userService->createUser($name, $email, $username, $pwd);
+            $this->userData->create($name, $email, $username, $pwd);
             $this->authService->attemptLogin($username, $pwd);
         } catch (Exception $e) {
             error_log($e->getMessage());
