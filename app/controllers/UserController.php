@@ -5,21 +5,21 @@ namespace App\Controllers;
 use Exception;
 use App\Core\View;
 use App\Services\AuthService;
-use App\Services\UserService;
+use App\Interfaces\UserDataInterface;
 use App\Validation\ValidateUpdateUserName;
 
 class UserController
 {
     public $authService;
-    public $userService;
+    public $userData;
     private $currentUser;
 
-    public function __construct(AuthService $authService, UserService $userService)
+    public function __construct(AuthService $authService, UserDataInterface $userData)
     {
         $this->currentUser = current_user();
         $this->authService = $authService;
         $this->authService->userAccessOnly($this->currentUser);
-        $this->userService = $userService;
+        $this->userData = $userData;
     }
 
     public function index()
@@ -42,7 +42,7 @@ class UserController
         }
 
         try {
-            $this->userService->updateUserProperties($this->currentUser->id, ['name' => $newName]);
+            $this->userData->update($this->currentUser->id, ['name' => $newName]);
             $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -57,7 +57,7 @@ class UserController
         handle_csrf();
 
         try {
-            $this->userService->deleteUser($_SESSION['user_id']);
+            $this->userData->delete($_SESSION['user_id']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
