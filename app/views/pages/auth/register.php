@@ -30,11 +30,6 @@ $this->layout(
                                             placeholder="name@example.com" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="" class="form-label">Username</label>
-                                        <input type="text" class="form-control form-control" name="username"
-                                            placeholder="Username" required>
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="" class="form-label">Password</label>
                                         <input type="password" class="form-control form-control" name="password"
                                             placeholder="Your Password" required>

@@ -5,18 +5,16 @@ Not intended for production use.
 
 ## About
 - User registration 
-- Login / Logout functionality
-- Basic CRUD operations
-- Page access restrictions for users or guests
+- Basic Login / Logout functionality use native `$_SESSION` super global
+- CRUD operations
+- Page access restrictions for users/guests
 
-## Table Schema
+## Database Schema
 ```SQL
 CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `role` int(1) NOT NULL DEFAULT 0,
     `name` varchar(128) NOT NULL,
     `email` varchar(128) NOT NULL,
-    `username` varchar(128) NOT NULL,
     `password` varchar(128) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1

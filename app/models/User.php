@@ -23,34 +23,35 @@ class User extends Model implements UserDataInterface
         $sql = "SELECT * FROM $this->table 
             WHERE id = :id";
 
-        $this->db->query($sql)
+        $this->db
+            ->query($sql)
             ->bind(':id', $id);
 
         return $this->db->single();
     }
 
-    public function getByUsername($username, $email)
+    public function getByEmail($email)
     {
         $sql = "SELECT * FROM $this->table 
-            WHERE username = :username OR email = :email";
+            WHERE email = :email";
 
-        $this->db->query($sql)
-            ->bind(':username', $username)
+        $this->db
+            ->query($sql)
             ->bind(':email', $email);
 
         return $this->db->single();
     }
 
-    public function create($name, $email, $username, $password)
+    public function create($name, $email, $password)
     {
         $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO $this->table(name, email, username, password) 
-            VALUES(:name, :email, :username, :password)";
+        $sql = "INSERT INTO $this->table(name, email, password) 
+            VALUES(:name, :email, :password)";
 
-        $this->db->query($sql)
+        $this->db
+            ->query($sql)
             ->bind(':name', $name)
             ->bind(':email', $email)
-            ->bind(':username', $username)
             ->bind(':password', $hashedPwd);
 
         return $this->db->execute();
@@ -81,26 +82,15 @@ class User extends Model implements UserDataInterface
         return $this->db->execute();
     }
 
-    public function delete($userId)
+    public function deleteById($userId)
     {
         $sql = "DELETE FROM $this->table
             WHERE id = :id";
 
-        $this->db->query($sql)
+        $this->db
+            ->query($sql)
             ->bind(':id', $userId);
 
         return $this->db->execute();
     }
-
-    /* 
-    CREATE TABLE `users` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
-        `role` int(1) NOT NULL DEFAULT 0,
-        `name` varchar(128) NOT NULL,
-        `email` varchar(128) NOT NULL,
-        `username` varchar(128) NOT NULL,
-        `password` varchar(128) NOT NULL,
-        PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
-    */
 }

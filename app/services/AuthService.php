@@ -16,13 +16,13 @@ class AuthService
         $this->userData = $userData;
     }
 
-    public function attemptLogin($username, $pwd): bool
+    public function attemptLogin($email, $pwd): bool
     {
-        $user = $this->userData->getByUsername($username, $username);
+        $user = $this->userData->getByEmail($email);
 
         // normally we would handle the validation and throwing errors in the controller
         // making exception here to make the login experience more practical
-        $validationErrors = (new ValidateUserLogin($username, $pwd, $user))->handle();
+        $validationErrors = (new ValidateUserLogin($email, $pwd, $user))->handle();
         if ($validationErrors) {
             array_unshift($validationErrors, 'Invalid Login.');
             $_SESSION['flash_error_msg'] = $validationErrors;
@@ -30,7 +30,6 @@ class AuthService
         }
 
         $_SESSION['user_id'] = $user->id;
-        $_SESSION['user_username'] = $user->username;
 
         return true;
     }
