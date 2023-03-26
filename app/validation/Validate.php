@@ -23,14 +23,6 @@ abstract class Validate
         return false;
     }
 
-    /**
-     * Alphanumeric username
-     */
-    public function invalidUsername($username): bool
-    {
-        return (!preg_match('/^[a-zA-Z0-9]*$/', $username)) ? true : false;
-    }
-
     public function invalidEmail($email): bool
     {
         return (!filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;

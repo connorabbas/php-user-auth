@@ -24,7 +24,7 @@ class LoginController
     {
         handle_csrf();
         
-        if (!$this->authService->attemptLogin($_POST['username'], $_POST['password'])) {
+        if (!$this->authService->attemptLogin($_POST['email'], $_POST['password'])) {
             return back();
         }
 

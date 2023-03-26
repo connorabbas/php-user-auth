@@ -30,7 +30,6 @@ class RegisterController
         handle_csrf();
 
         $name = $_POST['name'];
-        $username = $_POST['username'];
         $email = $_POST['email'];
         $pwd = $_POST['password'];
         $pwdR = $_POST['passwordR'];
@@ -39,7 +38,6 @@ class RegisterController
             $this->userData,
             $name,
             $email,
-            $username,
             $pwd,
             $pwdR
         ))->handle();
@@ -49,8 +47,8 @@ class RegisterController
         }
 
         try {
-            $this->userData->create($name, $email, $username, $pwd);
-            $this->authService->attemptLogin($username, $pwd);
+            $this->userData->create($name, $email, $pwd);
+            $this->authService->attemptLogin($email, $pwd);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';

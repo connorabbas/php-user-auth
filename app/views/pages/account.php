@@ -31,10 +31,6 @@ $this->layout(
                                         <label for="" class="form-label">Email</label>
                                         <p class="text-muted"><?= $user->email ?></p>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Username</label>
-                                        <p class="text-muted"><?= $user->username ?></p>
-                                    </div>
                                     <button class="btn btn-primary" type="submit" name="updateSubmit">Update</button>
                                 </form>
                             </div>

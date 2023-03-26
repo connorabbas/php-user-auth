@@ -20,9 +20,9 @@ $this->layout(
                                 <form action="/login" method="post">
                                     <?= csrf() ?>
                                     <div class="mb-3">
-                                        <label for="" class="form-label">Username</label>
-                                        <input type="text" class="form-control form-control" name="username"
-                                            placeholder="Username" required>
+                                        <label for="" class="form-label">Email</label>
+                                        <input type="email" class="form-control form-control" name="email"
+                                            placeholder="Email" required>
                                     </div>
                                     <div class="mb-4">
                                         <label for="" class="form-label">Password</label>

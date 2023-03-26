@@ -6,7 +6,7 @@ use Exception;
 use App\Core\View;
 use App\Services\AuthService;
 use App\Interfaces\UserDataInterface;
-use App\Validation\ValidateUpdateUserName;
+use App\Validation\ValidateUpdateUsersName;
 
 class UserController
 {
@@ -35,7 +35,7 @@ class UserController
         handle_csrf();
 
         $newName = $_POST['name'];
-        $validationErrors = (new ValidateUpdateUserName($this->currentUser, $newName))->handle();
+        $validationErrors = (new ValidateUpdateUsersName($this->currentUser, $newName))->handle();
         if ($validationErrors) {
             $_SESSION['flash_error_msg'] = $validationErrors;
             return back();
@@ -57,7 +57,7 @@ class UserController
         handle_csrf();
 
         try {
-            $this->userData->delete($_SESSION['user_id']);
+            $this->userData->deleteById($_SESSION['user_id']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';

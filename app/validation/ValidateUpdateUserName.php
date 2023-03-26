@@ -2,7 +2,7 @@
 
 namespace App\Validation;
 
-class ValidateUpdateUserName extends Validate
+class ValidateUpdateUsersName extends Validate
 {
     public $user;
     public $newName;
