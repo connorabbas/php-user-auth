@@ -5,7 +5,7 @@ Not intended for production use.
 
 ## About
 - User registration 
-- Basic Login / Logout functionality use native `$_SESSION` super global
+- Basic Login / Logout functionality using native `$_SESSION` super global
 - CRUD operations
 - Page access restrictions for users/guests
 
