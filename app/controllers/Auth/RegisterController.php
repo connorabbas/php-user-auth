@@ -34,13 +34,7 @@ class RegisterController
         $pwd = $_POST['password'];
         $pwdR = $_POST['passwordR'];
 
-        $validationErrors = (new ValidateUserRegistration(
-            $this->userData,
-            $name,
-            $email,
-            $pwd,
-            $pwdR
-        ))->handle();
+        $validationErrors = (new ValidateUserRegistration($this->userData, $name, $email, $pwd, $pwdR))->handle();
         if ($validationErrors) {
             $_SESSION['flash_error_msg'] = $validationErrors;
             return back();

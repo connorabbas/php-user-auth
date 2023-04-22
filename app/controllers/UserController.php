@@ -24,10 +24,7 @@ class UserController
 
     public function index()
     {
-        return View::render(
-            'pages.account',
-            ['user' => $this->currentUser]
-        );
+        return View::render('pages.account', ['user' => $this->currentUser]);
     }
 
     public function update()
