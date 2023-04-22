@@ -40,18 +40,12 @@ class App
      */
     public function containerSetup(): self
     {
-        $this->container->setOnce(
-            DB::class,
-            function ($container) {
-                return new DB();
-            }
-        );
-        $this->container->setOnce(
-            UserDataInterface::class,
-            function ($container) {
-                return new User($container->get(DB::class));
-            }
-        );
+        $this->container->setOnce(DB::class, function ($container) {
+            return new DB();
+        });
+        $this->container->setOnce(UserDataInterface::class, function ($container) {
+            return new User($container->get(DB::class));
+        });
 
         return $this;
     }

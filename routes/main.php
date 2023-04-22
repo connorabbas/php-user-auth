@@ -23,11 +23,9 @@ $this->router->post('/logout', [LogoutController::class, 'doLogout']);
 
 $this->router
     ->controller(UserController::class)
-    ->batch(
-        function () {
-            $this->router
-                ->get('/account', 'index')
-                ->patch('/account', 'update')
-                ->delete('/account', 'destroy');
-        }
-    );
+    ->batch(function () {
+        $this->router
+            ->get('/account', 'index')
+            ->patch('/account', 'update')
+            ->delete('/account', 'destroy');
+    });
