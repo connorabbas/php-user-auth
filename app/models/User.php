@@ -8,26 +8,33 @@ use App\Interfaces\UserDataInterface;
 class User extends Model implements UserDataInterface
 {
     private $table = 'users';
+    private $recordCache = [];
 
     public function getAll()
     {
         $sql = "SELECT * FROM $this->table";
 
-        $this->db->query($sql);
-
-        return $this->db->resultSet();
+        return $this->db
+            ->query($sql)
+            ->resultSet();
     }
 
     public function getById($id)
     {
+        if (array_key_exists($id, $this->recordCache)) {
+            return $this->recordCache[$id];
+        }
+
         $sql = "SELECT * FROM $this->table 
             WHERE id = :id";
 
-        $this->db
+        $result = $this->db
             ->query($sql)
-            ->bind(':id', $id);
+            ->bind(':id', $id)
+            ->single();
+        $this->recordCache[$id] = $result;
 
-        return $this->db->single();
+        return $result;
     }
 
     public function getByEmail($email)
@@ -35,11 +42,10 @@ class User extends Model implements UserDataInterface
         $sql = "SELECT * FROM $this->table 
             WHERE email = :email";
 
-        $this->db
+        return $this->db
             ->query($sql)
-            ->bind(':email', $email);
-
-        return $this->db->single();
+            ->bind(':email', $email)
+            ->single();
     }
 
     public function create($name, $email, $password)
@@ -48,13 +54,12 @@ class User extends Model implements UserDataInterface
         $sql = "INSERT INTO $this->table(name, email, password) 
             VALUES(:name, :email, :password)";
 
-        $this->db
+        return $this->db
             ->query($sql)
             ->bind(':name', $name)
             ->bind(':email', $email)
-            ->bind(':password', $hashedPwd);
-
-        return $this->db->execute();
+            ->bind(':password', $hashedPwd)
+            ->execute();
     }
 
     public function update($userId, array $properties)
@@ -87,10 +92,9 @@ class User extends Model implements UserDataInterface
         $sql = "DELETE FROM $this->table
             WHERE id = :id";
 
-        $this->db
+        return $this->db
             ->query($sql)
-            ->bind(':id', $userId);
-
-        return $this->db->execute();
+            ->bind(':id', $userId)
+            ->execute();
     }
 }
