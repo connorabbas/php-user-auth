@@ -1,7 +1,4 @@
 
-<?php
-$currentUser = current_user();
-?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -32,7 +29,7 @@ $currentUser = current_user();
     <body class="bg-light">
 
         <!-- Navbar/header -->
-        <?= $this->insert('sections/header', ['currentUser' => $currentUser]) ?>
+        <?= $this->insert('sections/header', ['currentUser' => current_user()]) ?>
 
         <!-- Main Content -->
         <?= $this->section('content') ?>

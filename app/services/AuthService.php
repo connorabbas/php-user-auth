@@ -10,10 +10,19 @@ class AuthService
 {
     public $userData;
     public $userValidation;
+    private $currentUser;
 
     public function __construct(UserDataInterface $userData)
     {
         $this->userData = $userData;
+        $this->currentUser = isset($_SESSION['user_id'])
+            ? $this->userData->getById($_SESSION['user_id'])
+            : null;
+    }
+
+    public function getCurrentUser()
+    {
+        return $this->currentUser;
     }
 
     public function attemptLogin($email, $pwd): bool

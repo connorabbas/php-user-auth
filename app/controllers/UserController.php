@@ -16,8 +16,8 @@ class UserController
 
     public function __construct(AuthService $authService, UserDataInterface $userData)
     {
-        $this->currentUser = current_user();
         $this->authService = $authService;
+        $this->currentUser = $this->authService->getCurrentUser();
         $this->authService->userAccessOnly($this->currentUser);
         $this->userData = $userData;
     }
