@@ -48,7 +48,7 @@ class UserModel extends Model
         ]);
     }
 
-    public function update(int $userId, array $properties)
+    public function update($userId, array $properties)
     {
         $setString = '';
         foreach ($properties as $property => $value) {
@@ -67,7 +67,7 @@ class UserModel extends Model
         return $this->db->execute($sql, $properties);
     }
 
-    public function deleteById(int $userId)
+    public function deleteById($userId)
     {
         $sql = "DELETE FROM $this->table WHERE id = ?";
         return $this->db->execute($sql, [$userId]);
