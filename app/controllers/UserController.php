@@ -4,22 +4,22 @@ namespace App\Controllers;
 
 use Exception;
 use App\Core\View;
+use App\Models\UserModel;
 use App\Services\AuthService;
-use App\Interfaces\UserDataInterface;
 use App\Validation\ValidateUpdateUsersName;
 
 class UserController
 {
     public $authService;
-    public $userData;
+    public $userModel;
     private $currentUser;
 
-    public function __construct(AuthService $authService, UserDataInterface $userData)
+    public function __construct(AuthService $authService, UserModel $userModel)
     {
         $this->authService = $authService;
         $this->currentUser = $this->authService->getCurrentUser();
         $this->authService->userAccessOnly($this->currentUser);
-        $this->userData = $userData;
+        $this->userModel = $userModel;
     }
 
     public function index()
@@ -31,7 +31,7 @@ class UserController
     {
         handle_csrf();
 
-        $newName = $_POST['name'];
+        $newName = request()->input('name');
         $validationErrors = (new ValidateUpdateUsersName($this->currentUser, $newName))->handle();
         if ($validationErrors) {
             $_SESSION['flash_error_msg'] = $validationErrors;
@@ -39,7 +39,7 @@ class UserController
         }
 
         try {
-            $this->userData->update($this->currentUser->id, ['name' => $newName]);
+            $this->userModel->update($this->currentUser->id, ['name' => $newName]);
             $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -54,7 +54,7 @@ class UserController
         handle_csrf();
 
         try {
-            $this->userData->deleteById($_SESSION['user_id']);
+            $this->userModel->deleteById($_SESSION['user_id']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';

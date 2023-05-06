@@ -22,10 +22,11 @@ $this->router
 $this->router->post('/logout', [LogoutController::class, 'doLogout']);
 
 $this->router
+    ->prefixUri('/account')
     ->controller(UserController::class)
     ->batch(function () {
         $this->router
-            ->get('/account', 'index')
-            ->patch('/account', 'update')
-            ->delete('/account', 'destroy');
+            ->get('/', 'index')
+            ->patch('/', 'update')
+            ->delete('/', 'destroy');
     });

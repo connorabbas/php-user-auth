@@ -1,11 +1,8 @@
 <?php
-$this->layout(
-    'template::main',
-    [
-        'pageTitle' => 'Welcome',
-        'pageDesc' => "User Auth",
-    ]
-);
+$this->layout('template::main', [
+    'pageTitle' => 'Welcome',
+    'pageDesc' => "User Auth",
+]);
 ?>
 <div class="d-flex align-items-center justify-content-center" style="height: 90vh">
     <div class="text-center">

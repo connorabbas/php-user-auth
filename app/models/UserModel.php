@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Core\Model;
-use App\Interfaces\UserDataInterface;
 
-class User extends Model implements UserDataInterface
+class UserModel extends Model
 {
     private $table = 'users';
     private $recordCache = [];
@@ -13,10 +12,7 @@ class User extends Model implements UserDataInterface
     public function getAll()
     {
         $sql = "SELECT * FROM $this->table";
-
-        return $this->db
-            ->query($sql)
-            ->resultSet();
+        return $this->db->query($sql);
     }
 
     public function getById($id)
@@ -24,14 +20,8 @@ class User extends Model implements UserDataInterface
         if (array_key_exists($id, $this->recordCache)) {
             return $this->recordCache[$id];
         }
-
-        $sql = "SELECT * FROM $this->table 
-            WHERE id = :id";
-
-        $result = $this->db
-            ->query($sql)
-            ->bind(':id', $id)
-            ->single();
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $result = $this->db->single($sql, [$id]);
         $this->recordCache[$id] = $result;
 
         return $result;
@@ -40,12 +30,9 @@ class User extends Model implements UserDataInterface
     public function getByEmail($email)
     {
         $sql = "SELECT * FROM $this->table 
-            WHERE email = :email";
+            WHERE email = ?";
 
-        return $this->db
-            ->query($sql)
-            ->bind(':email', $email)
-            ->single();
+        return $this->db->single($sql, [$email]);
     }
 
     public function create($name, $email, $password)
@@ -54,12 +41,11 @@ class User extends Model implements UserDataInterface
         $sql = "INSERT INTO $this->table(name, email, password) 
             VALUES(:name, :email, :password)";
 
-        return $this->db
-            ->query($sql)
-            ->bind(':name', $name)
-            ->bind(':email', $email)
-            ->bind(':password', $hashedPwd)
-            ->execute();
+        return $this->db->execute($sql, [
+            'name' => $name,
+            'email' => $email,
+            'password' => $hashedPwd,
+        ]);
     }
 
     public function update($userId, array $properties)
@@ -73,28 +59,17 @@ class User extends Model implements UserDataInterface
                 $setString .= ' ';
             }
         }
-
+        $properties['id'] = $userId;
         $sql = "UPDATE $this->table
             SET $setString
             WHERE id = :id";
 
-        $this->db->query($sql);
-        foreach ($properties as $property => $value) {
-            $this->db->bind(':' . $property, $value);
-        }
-        $this->db->bind(':id', $userId);
-
-        return $this->db->execute();
+        return $this->db->execute($sql, $properties);
     }
 
     public function deleteById($userId)
     {
-        $sql = "DELETE FROM $this->table
-            WHERE id = :id";
-
-        return $this->db
-            ->query($sql)
-            ->bind(':id', $userId)
-            ->execute();
+        $sql = "DELETE FROM $this->table WHERE id = ?";
+        return $this->db->execute($sql, [$userId]);
     }
 }

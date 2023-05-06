@@ -3,20 +3,20 @@
 namespace App\Services;
 
 use App\Core\View;
-use App\Interfaces\UserDataInterface;
+use App\Models\UserModel;
 use App\Validation\ValidateUserLogin;
 
 class AuthService
 {
-    public $userData;
+    public $userModel;
     public $userValidation;
     private $currentUser;
 
-    public function __construct(UserDataInterface $userData)
+    public function __construct(UserModel $userModel)
     {
-        $this->userData = $userData;
+        $this->userModel = $userModel;
         $this->currentUser = isset($_SESSION['user_id'])
-            ? $this->userData->getById($_SESSION['user_id'])
+            ? $this->userModel->getById($_SESSION['user_id'])
             : null;
     }
 
@@ -27,7 +27,7 @@ class AuthService
 
     public function attemptLogin($email, $pwd): bool
     {
-        $user = $this->userData->getByEmail($email);
+        $user = $this->userModel->getByEmail($email);
 
         // normally we would handle the validation and throwing errors in the controller
         // making exception here to make the login experience more practical
@@ -55,7 +55,7 @@ class AuthService
 
     public function guestAccessOnly()
     {
-        if (logged_in() && $this->userData->getById($_SESSION['user_id']) !== false) {
+        if (logged_in() && $this->userModel->getById($_SESSION['user_id']) !== false) {
             http_response_code(403);
             echo View::render('pages.403');
             exit;

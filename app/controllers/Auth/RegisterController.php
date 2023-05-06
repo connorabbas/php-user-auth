@@ -4,20 +4,20 @@ namespace App\Controllers\Auth;
 
 use Exception;
 use App\Core\View;
+use App\Models\UserModel;
 use App\Services\AuthService;
-use App\Interfaces\UserDataInterface;
 use App\Validation\ValidateUserRegistration;
 
 class RegisterController
 {
     public $authService;
-    public $userData;
+    public $userModel;
 
-    public function __construct(AuthService $authService, UserDataInterface $userData)
+    public function __construct(AuthService $authService, UserModel $userModel)
     {
         $this->authService = $authService;
         $this->authService->guestAccessOnly();
-        $this->userData = $userData;
+        $this->userModel = $userModel;
     }
 
     public function index()
@@ -29,19 +29,20 @@ class RegisterController
     {
         handle_csrf();
 
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $pwd = $_POST['password'];
-        $pwdR = $_POST['passwordR'];
+        $request = request();
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $pwd = $request->input('password');
+        $pwdR = $request->input('passwordR');
 
-        $validationErrors = (new ValidateUserRegistration($this->userData, $name, $email, $pwd, $pwdR))->handle();
+        $validationErrors = (new ValidateUserRegistration($this->userModel, $name, $email, $pwd, $pwdR))->handle();
         if ($validationErrors) {
             $_SESSION['flash_error_msg'] = $validationErrors;
             return back();
         }
 
         try {
-            $this->userData->create($name, $email, $pwd);
+            $this->userModel->create($name, $email, $pwd);
             $this->authService->attemptLogin($email, $pwd);
         } catch (Exception $e) {
             error_log($e->getMessage());

@@ -1,11 +1,8 @@
 <?php
-$this->layout(
-    'template::main',
-    [
-        'pageTitle' => 'Account Info',
-        'pageDesc' => "User Auth",
-    ]
-);
+$this->layout('template::main', [
+    'pageTitle' => 'Account Info',
+    'pageDesc' => "User Auth",
+]);
 ?>
 <div class="mt-5 mb-5">
     <div id="logInOuter">

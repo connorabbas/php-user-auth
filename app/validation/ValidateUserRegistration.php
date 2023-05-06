@@ -2,19 +2,19 @@
 
 namespace App\Validation;
 
-use App\Interfaces\UserDataInterface;
+use App\Models\UserModel;
 
 class ValidateUserRegistration extends Validate
 {
-    public $userData;
+    public $userModel;
     public $name;
     public $email;
     public $pwd;
     public $pwdR;
 
-    public function __construct(UserDataInterface $userData, $name, $email, $pwd, $pwdR)
+    public function __construct(UserModel $userModel, $name, $email, $pwd, $pwdR)
     {
-        $this->userData = $userData;
+        $this->userModel = $userModel;
         $this->name = $name;
         $this->email = $email;
         $this->pwd = $pwd;
@@ -35,7 +35,7 @@ class ValidateUserRegistration extends Validate
         if ($this->match($this->pwd, $this->pwdR) !== false) {
             $errors[] = 'Passwords must match.';
         }
-        if ($this->userData->getByEmail($this->email) !== false) {
+        if ($this->userModel->getByEmail($this->email) !== false) {
             $errors[] = 'This email is already in use.';
         }
         
