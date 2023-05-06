@@ -37,7 +37,7 @@ class RegisterController
 
         $validationErrors = (new ValidateUserRegistration($this->userModel, $name, $email, $pwd, $pwdR))->handle();
         if ($validationErrors) {
-            $_SESSION['flash_error_msg'] = $validationErrors;
+            session()->set('flash_error_msg', $validationErrors);
             return back();
         }
 
@@ -46,7 +46,7 @@ class RegisterController
             $this->authService->attemptLogin($email, $pwd);
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
+            session()->set('flash_error_msg', 'Something went wrong. Contact support staff.');
             return back();
         }
 

@@ -1,5 +1,10 @@
 <?php
 
+use App\Core\Config;
+use App\Core\Request;
+use App\Core\Session;
+use App\Models\UserModel;
+
 /**
  * Helper functions available anywhere within the application
  */
@@ -22,7 +27,7 @@ if (!function_exists('container')) {
 if (!function_exists('config')) {
     function config(string $file, string $key)
     {
-        return container(App\Core\Config::class)->get($file, $key);
+        return container(Config::class)->get($file, $key);
     }
 }
 
@@ -30,9 +35,19 @@ if (!function_exists('config')) {
  * Access config values by using "." as the nesting delimiter
  */
 if (!function_exists('request')) {
-    function request()
+    function request(): Request
     {
-        return container(App\Core\Request::class);
+        return container(Request::class);
+    }
+}
+
+/**
+ * Use session data
+ */
+if (!function_exists('session')) {
+    function session(): Session
+    {
+        return container(Session::class);
     }
 }
 
@@ -78,13 +93,13 @@ if (!function_exists('method_spoof')) {
 if (!function_exists('csrf')) {
     function csrf()
     {
-        if (!isset($_SESSION['csrf'])) {
-            $_SESSION['csrf'] = bin2hex(random_bytes(50));
+        if (is_null(session()->get('csrf'))) {
+            session()->set('csrf', bin2hex(random_bytes(50)));
         }
 
         ob_start();
         ?>
-        <input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?>">
+        <input type="hidden" name="csrf" value="<?= session()->get('csrf') ?>">
         <?php
         $input = ob_get_clean();
 
@@ -98,10 +113,12 @@ if (!function_exists('csrf')) {
 if (!function_exists('csrf_valid')) {
     function csrf_valid()
     {
-        if (!isset($_SESSION['csrf']) || !isset($_REQUEST['csrf'])) {
+        $csrfSession = session()->get('csrf');
+        $csrfInput = request()->input('csrf');
+        if (is_null($csrfSession) || is_null($csrfInput)) {
             return false;
         }
-        if ($_SESSION['csrf'] != $_REQUEST['csrf']) {
+        if ($csrfSession != $csrfInput) {
             return false;
         }
 
@@ -116,7 +133,10 @@ if (!function_exists('handle_csrf')) {
     function handle_csrf()
     {
         if (!csrf_valid()) {
-            $_SESSION['flash_error_msg'] = 'Invalid request. Possible cross site request forgery detected.';
+            session()->set(
+                'flash_error_msg',
+                'Invalid request. Possible cross site request forgery detected.'
+            );
             return back();
         }
     }
@@ -150,16 +170,17 @@ if (!function_exists('back')) {
 if (!function_exists('success_flash_message')) {
     function success_flash_message()
     {
+        $message = session()->get('flash_success_msg');
         $successAlert = '';
-        if (isset($_SESSION['flash_success_msg']) && $_SESSION['flash_success_msg'] != '') {
+        if (!is_null($message) && $message != '') {
             ob_start();
             ?>
             <div class="alert alert-success mb-3" role="alert">
-                <?= $_SESSION['flash_success_msg'] ?>
+                <?= $message ?>
             </div>
             <?php
             $successAlert = ob_get_clean();
-            unset($_SESSION["flash_success_msg"]);
+            session()->remove('flash_success_msg');
         }
 
         return $successAlert;
@@ -172,28 +193,29 @@ if (!function_exists('success_flash_message')) {
 if (!function_exists('error_flash_message')) {
     function error_flash_message()
     {
+        $errors = session()->get('flash_error_msg');
         $errorAlert = '';
-        if (isset($_SESSION['flash_error_msg']) && $_SESSION['flash_error_msg'] != '') {
+        if (!is_null($errors) && $errors != '') {
             ob_start();
             ?>
             <div class="alert alert-danger mb-3" role="alert">
-                <?php if(is_array($_SESSION['flash_error_msg'])): ?>
-                    <?php if(count($_SESSION['flash_error_msg']) > 1): ?>
+                <?php if (is_array($errors)): ?>
+                    <?php if (count($errors) > 1): ?>
                         <ul class="mb-0">
-                            <?php foreach ($_SESSION['flash_error_msg'] as $message): ?>
+                            <?php foreach ($errors as $message): ?>
                                 <li><?= $message ?></li>
                             <?php endforeach ?>
                         </ul>
-                    <?php elseif(count($_SESSION['flash_error_msg']) == 1): ?>
-                        <?= $_SESSION['flash_error_msg'][0] ?>
+                    <?php elseif (count($errors) == 1): ?>
+                        <?= $errors[0] ?>
                     <?php endif ?>
                 <?php else: ?>
-                    <?= $_SESSION['flash_error_msg'] ?>
+                    <?= $errors ?>
                 <?php endif ?>
             </div>
             <?php
             $errorAlert = ob_get_clean();
-            unset($_SESSION["flash_error_msg"]);
+            session()->remove('flash_error_msg');
         }
 
         return $errorAlert;
@@ -206,7 +228,7 @@ if (!function_exists('error_flash_message')) {
 if (!function_exists('logged_in')) {
     function logged_in()
     {
-        if(isset($_SESSION['user_id'])){
+        if (!is_null(session()->get('user_id'))) {
             return true;
         }
         return false;
@@ -219,9 +241,9 @@ if (!function_exists('logged_in')) {
 if (!function_exists('current_user')) {
     function current_user()
     {
-        if(!isset($_SESSION['user_id'])){
-            return null;
-        }
-        return container(App\Models\UserModel::class)->getById($_SESSION['user_id']);
+        $userId = session()->get('user_id');
+        return !is_null($userId) 
+            ? container(UserModel::class)->getById($userId)
+            : null;
     }
 }

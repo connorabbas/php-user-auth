@@ -19,7 +19,7 @@ class ValidateUpdateUsersName extends Validate
         if ($this->user->name == $this->newName) {
             $errors[] = 'Name was NOT updated. Please enter a different name.';
         }
-        
+
         return $errors;
     }
 }
