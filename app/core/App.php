@@ -3,12 +3,12 @@
 namespace App\Core;
 
 use App\Core\DB;
+use App\Core\Config;
 use App\Core\Router;
-use App\Models\User;
+use App\Core\Request;
 use App\Core\Container;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
-use App\Interfaces\UserDataInterface;
 
 class App
 {
@@ -40,12 +40,21 @@ class App
      */
     public function containerSetup(): self
     {
-        $this->container->setOnce(DB::class, function ($container) {
-            return new DB();
+        $this->container->setOnce(Config::class, function ($container) {
+            return new Config($_ENV);
         });
-        $this->container->setOnce(UserDataInterface::class, function ($container) {
-            return new User($container->get(DB::class));
+        $this->container->setOnce(Request::class, function ($container) {
+            return new Request();
         });
+        /* $this->container->setOnce(DB::class, function ($container) {
+            $dbConfig = config('database', 'main');
+            return new DB(
+                $dbConfig['name'],
+                $dbConfig['username'],
+                $dbConfig['password'],
+                $dbConfig['host'],
+            );
+        }); */
 
         return $this;
     }
