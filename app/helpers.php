@@ -199,3 +199,29 @@ if (!function_exists('error_flash_message')) {
         return $errorAlert;
     }
 }
+
+/**
+ * Check if a User is logged in
+ */
+if (!function_exists('logged_in')) {
+    function logged_in()
+    {
+        if(isset($_SESSION['user_id'])){
+            return true;
+        }
+        return false;
+    }
+}
+
+/**
+ * Get the current authenticated User
+ */
+if (!function_exists('current_user')) {
+    function current_user()
+    {
+        if(!isset($_SESSION['user_id'])){
+            return null;
+        }
+        return container(App\Models\UserModel::class)->getById($_SESSION['user_id']);
+    }
+}

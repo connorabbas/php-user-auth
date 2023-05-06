@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Core\Model;
 
-class ExampleModel extends Model
+class UserModel extends Model
 {
-    private $table = 'example';
+    private $table = 'users';
+    private $recordCache = [];
 
     public function getAll()
     {
@@ -16,8 +17,35 @@ class ExampleModel extends Model
 
     public function getById($id)
     {
+        if (array_key_exists($id, $this->recordCache)) {
+            return $this->recordCache[$id];
+        }
         $sql = "SELECT * FROM $this->table WHERE id = ?";
-        return $this->db->single($sql, [$id]);
+        $result = $this->db->single($sql, [$id]);
+        $this->recordCache[$id] = $result;
+
+        return $result;
+    }
+
+    public function getByEmail($email)
+    {
+        $sql = "SELECT * FROM $this->table 
+            WHERE email = ?";
+
+        return $this->db->single($sql, [$email]);
+    }
+
+    public function create($name, $email, $password)
+    {
+        $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO $this->table(name, email, password) 
+            VALUES(:name, :email, :password)";
+
+        return $this->db->execute($sql, [
+            'name' => $name,
+            'email' => $email,
+            'password' => $hashedPwd,
+        ]);
     }
 
     public function update(int $userId, array $properties)
@@ -39,7 +67,7 @@ class ExampleModel extends Model
         return $this->db->execute($sql, $properties);
     }
 
-    public function delete(int $userId)
+    public function deleteById(int $userId)
     {
         $sql = "DELETE FROM $this->table WHERE id = ?";
         return $this->db->execute($sql, [$userId]);

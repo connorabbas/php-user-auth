@@ -9,13 +9,13 @@
         <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="/css/styles.css" rel="stylesheet">
 
-        <title>404</title>
+        <title>403</title>
     </head>
     <body class="bg-light">
         <div class="d-flex align-items-center justify-content-center" style="height: 90vh">
             <div class="text-center">
-                <h1 class="mb-4">404</h1>
-                <p class="text-muted">Nothing to see here...</p>
+                <h1 class="mb-4">403</h1>
+                <p class="text-muted">You are unauthorized to access this resource.</p>
                 <a href="/">Home</a>
             </div>
         </div>

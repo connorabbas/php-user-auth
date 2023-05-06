@@ -1,6 +1,9 @@
 <?php
 
-use App\Controllers\ExampleController;
+use App\Controllers\UserController;
+use App\Controllers\Auth\LoginController;
+use App\Controllers\Auth\LogoutController;
+use App\Controllers\Auth\RegisterController;
 
 /**
  * Registered routes for your site
@@ -8,8 +11,22 @@ use App\Controllers\ExampleController;
 
 $this->router->view('/', 'pages.welcome');
 
-$this->router->get('/json', function () {
-    return json_encode(['foo' => 'bar']);
-});
+$this->router
+    ->get('/register', [RegisterController::class, 'index'])
+    ->post('/register', [RegisterController::class, 'store']);
 
-$this->router->get('/example/#data', [ExampleController::class, 'index']);
+$this->router
+    ->get('/login', [LoginController::class, 'index'])
+    ->post('/login', [LoginController::class, 'doLogin']);
+
+$this->router->post('/logout', [LogoutController::class, 'doLogout']);
+
+$this->router
+    ->prefixUri('/account')
+    ->controller(UserController::class)
+    ->batch(function () {
+        $this->router
+            ->get('/', 'index')
+            ->patch('/', 'update')
+            ->delete('/', 'destroy');
+    });
