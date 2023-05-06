@@ -31,11 +31,6 @@ if ($_ENV['ENV'] == 'local') {
     error_reporting(E_ALL);
 }
 
-// Session
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 // Run the site
 $container = new Container();
 $router = new Router($container);
