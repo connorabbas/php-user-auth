@@ -30,10 +30,10 @@ class RegisterController
         handle_csrf();
 
         $request = request();
-        $name = $request->post('name');
-        $email = $request->post('email');
-        $pwd = $request->post('password');
-        $pwdR = $request->post('passwordR');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $pwd = $request->input('password');
+        $pwdR = $request->input('passwordR');
 
         $validationErrors = (new ValidateUserRegistration($this->userModel, $name, $email, $pwd, $pwdR))->handle();
         if ($validationErrors) {
