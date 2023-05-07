@@ -38,7 +38,7 @@ class ValidateUserRegistration extends Validate
         if ($this->userModel->getByEmail($this->email) !== false) {
             $errors[] = 'This email is already in use.';
         }
-        
+
         return $errors;
     }
 }

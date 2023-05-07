@@ -27,7 +27,7 @@ class ValidateUserLogin extends Validate
         if ($this->user !== false && !password_verify($this->pwd, $this->user->password)) {
             $errors[] = 'Incorrect password.';
         }
-        
+
         return $errors;
     }
 }

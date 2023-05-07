@@ -15,9 +15,7 @@ class AuthService
     public function __construct(UserModel $userModel)
     {
         $this->userModel = $userModel;
-        $this->currentUser = isset($_SESSION['user_id'])
-            ? $this->userModel->getById($_SESSION['user_id'])
-            : null;
+        $this->currentUser = current_user();
     }
 
     public function getCurrentUser()
@@ -28,17 +26,13 @@ class AuthService
     public function attemptLogin($email, $pwd): bool
     {
         $user = $this->userModel->getByEmail($email);
-
-        // normally we would handle the validation and throwing errors in the controller
-        // making exception here to make the login experience more practical
         $validationErrors = (new ValidateUserLogin($email, $pwd, $user))->handle();
         if ($validationErrors) {
             array_unshift($validationErrors, 'Invalid Login.');
-            $_SESSION['flash_error_msg'] = $validationErrors;
+            session()->set('flash_error_msg', $validationErrors);
             return false;
         }
-
-        $_SESSION['user_id'] = $user->id;
+        session()->set('user_id', $user->id);
 
         return true;
     }
@@ -55,7 +49,7 @@ class AuthService
 
     public function guestAccessOnly()
     {
-        if (logged_in() && $this->userModel->getById($_SESSION['user_id']) !== false) {
+        if (logged_in() && !is_null($this->currentUser)) {
             http_response_code(403);
             echo View::render('pages.403');
             exit;

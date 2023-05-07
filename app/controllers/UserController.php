@@ -34,18 +34,18 @@ class UserController
         $newName = request()->input('name');
         $validationErrors = (new ValidateUpdateUsersName($this->currentUser, $newName))->handle();
         if ($validationErrors) {
-            $_SESSION['flash_error_msg'] = $validationErrors;
+            session()->set('flash_error_msg', $validationErrors);
             return back();
         }
 
         try {
             $this->userModel->update($this->currentUser->id, ['name' => $newName]);
-            $_SESSION['flash_success_msg'] = 'Success! Your name has been updated.';
+            session()->set('flash_success_msg', 'Success! Your name has been updated.');
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
+            session()->set('flash_error_msg', 'Something went wrong. Contact support staff.');
         }
-        
+
         return back();
     }
 
@@ -54,16 +54,16 @@ class UserController
         handle_csrf();
 
         try {
-            $this->userModel->deleteById($_SESSION['user_id']);
+            $this->userModel->deleteById(session()->get('user_id'));
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $_SESSION['flash_error_msg'] = 'Something went wrong. Contact support staff.';
+            session()->set('flash_error_msg', 'Something went wrong. Contact support staff.');
             return back();
         }
 
         $this->authService->logout();
-        $_SESSION['flash_success_msg'] = 'Your account was successfully deleted.';
-        
+        session()->set('flash_success_msg', 'Your account was successfully deleted.');
+
         return redirect('/');
     }
 }

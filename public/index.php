@@ -2,7 +2,7 @@
 
 /**
  * Basic PHP Framework
- * Developed and maintained by: Connor Abbas 
+ * Developed and maintained by: Connor Abbas
  * Docs: https://github.com/connorabbas/basic-framework#documentation
  */
 
@@ -29,11 +29,6 @@ if ($_ENV['ENV'] == 'local') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-}
-
-// Session
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
 }
 
 // Run the site

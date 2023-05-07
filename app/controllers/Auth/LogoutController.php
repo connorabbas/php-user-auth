@@ -16,7 +16,7 @@ class LogoutController
     public function doLogout()
     {
         handle_csrf();
-        
+
         $this->authService->logout();
 
         return redirect('/');
